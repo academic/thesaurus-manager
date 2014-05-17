@@ -4,6 +4,14 @@ return array(
     'fetch' => PDO::FETCH_CLASS,
     'default' => 'mysql',
     'connections' => array(
+        'neo4j' => [
+            'default' => [
+                'host' => 'localhost',
+                'port' => 7474,
+                'username' => null,
+                'password' => null,
+            ],
+        ],
         'sqlite' => array(
             'driver' => 'sqlite',
             'database' => __DIR__ . '/../database/production.sqlite',
