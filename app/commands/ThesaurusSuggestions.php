@@ -3,7 +3,7 @@
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
-
+use Hasantayyar\Synonyms\Synonyms;
 class ThesaurusSuggestions extends Command {
 
     /**
@@ -36,7 +36,8 @@ class ThesaurusSuggestions extends Command {
      */
     public function fire() {
         $word = $this->argument('word');
-        
+        $synonyms = new Synonyms($word);
+        $synonyms->printThesaurus();
     }
 
     /**
