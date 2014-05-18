@@ -10,6 +10,9 @@
 <div class="page-header">
     <h1>Graph Editor</h1>
 </div> 
+<div class="col-md-12">
+    <a class="btn btn-success">Add An Existing Word</a> <a onclick="return confirm('Are you sure?')?location.reload():''"  class="btn btn-warning">Reset Work</a>
+</div>
 <input class="form-control hidden" id="selected" />
 <div id="graph"></div>
 

@@ -18,5 +18,10 @@
 
 </form>
 <br>
+<div class="col-md-12">
+@foreach ($results as $item)
+<p><a href="/nodes/graph-editor/{{$item['id']}}">{{ $item['properties']['word'] }}</a></p>
+@endforeach
+</div>
 
 @stop
