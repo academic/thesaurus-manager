@@ -7,19 +7,22 @@ use Symfony\Component\Console\Input\InputArgument;
 class ThesaurusSuggestions extends Command {
 
     /**
+     * The console command name.
      *
      * @var string
      */
     protected $name = 'suggestions:thesaurus';
 
     /**
+     * The console command description.
      *
      * @var string
      */
-    protected $description = 'Get suggestions from http://thesaurus.com';
-    protected $url = 'http://thesaurus.com/browse/';
+    protected $description = 'Command description.';
+    private $url = 'http://thesaurus.com/browse/';
 
     /**
+     * Create a new command instance.
      *
      * @return void
      */
@@ -28,27 +31,43 @@ class ThesaurusSuggestions extends Command {
     }
 
     /**
+     * Execute the console command.
      *
-     * @return void
+     * @return mixed
      */
     public function fire() {
-        $value = $this->argument('word');
-        echo "<pre>";
-        print_r($value);
-        exit();
+        $word = $this->argument('word');
+        $this->url.=$word;
+        $html = new Htmldom($this->url);
+        $listDiv = $html->find('.relevancy-list', 0);
+        for ($i = 0; $i <= 5; ++$i) {
+            echo "\n\nLEVEL " . $i . "\n";
+            $list = $listDiv->find('ul', $i);
+            if ($list) {
+                foreach ($list->find('li') as $element) {
+                    $linkElement = $element->find('a', 0);
+                    $linkHref = $linkElement->href;
+                    $dataCategory = html_entity_decode($linkElement->getAttribute('data-category'));
+                    echo $linkHref . "\n";
+                }
+            }
+        }
     }
 
     /**
+     * Get the console command arguments.
      *
      * @return array
      */
     protected function getArguments() {
         return array(
-            array('word', InputArgument::REQUIRED, 'Word'),
+            array('word', InputArgument::REQUIRED,
+                'A word to get similars.'),
         );
     }
 
     /**
+     * Get the console command options.
      *
      * @return array
      */

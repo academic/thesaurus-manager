@@ -1,6 +1,7 @@
 <?php
 
 return array(
+    'expire_on_close' => FALSE,
     /*
       |--------------------------------------------------------------------------
       | Default Session Driver
@@ -14,7 +15,6 @@ return array(
       |            "memcached", "redis", "array"
       |
      */
-
     'driver' => 'native',
     /*
       |--------------------------------------------------------------------------

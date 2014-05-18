@@ -1,6 +1,9 @@
 <?php
 
 return array(
+    'failed' => array(
+        'database' => 'mysql', 'table' => 'failed_jobs',
+    ),
     /*
       |--------------------------------------------------------------------------
       | Default Queue Driver
@@ -13,7 +16,6 @@ return array(
       | Supported: "sync", "beanstalkd", "sqs", "iron"
       |
      */
-
     'default' => 'sync',
     /*
       |--------------------------------------------------------------------------

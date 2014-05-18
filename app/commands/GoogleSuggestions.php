@@ -6,52 +6,62 @@ use Symfony\Component\Console\Input\InputArgument;
 
 class GoogleSuggestions extends Command {
 
-    /**
-     *
-     * @var string
-     */
-    protected $name = 'suggestions:google';
+	/**
+	 * The console command name.
+	 *
+	 * @var string
+	 */
+	protected $name = 'suggestions:google';
 
-    /**
-     *
-     * @var string
-     */
-    protected $description = 'Command description.';
+	/**
+	 * The console command description.
+	 *
+	 * @var string
+	 */
+	protected $description = 'Command description.';
 
-    /**
-     *
-     * @return void
-     */
-    public function __construct() {
-        parent::__construct();
-    }
+	/**
+	 * Create a new command instance.
+	 *
+	 * @return void
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+	}
 
-    /**
-     *
-     * @return void
-     */
-    public function fire() {
-        //
-    }
+	/**
+	 * Execute the console command.
+	 *
+	 * @return mixed
+	 */
+	public function fire()
+	{
+		//
+	}
 
-    /**
-     *
-     * @return array
-     */
-    protected function getArguments() {
-        return array(
-            array('example', InputArgument::REQUIRED, 'An example argument.'),
-        );
-    }
+	/**
+	 * Get the console command arguments.
+	 *
+	 * @return array
+	 */
+	protected function getArguments()
+	{
+		return array(
+			array('example', InputArgument::REQUIRED, 'An example argument.'),
+		);
+	}
 
-    /**
-     *
-     * @return array
-     */
-    protected function getOptions() {
-        return array(
-            array('example', null, InputOption::VALUE_OPTIONAL, 'An example option.', null),
-        );
-    }
+	/**
+	 * Get the console command options.
+	 *
+	 * @return array
+	 */
+	protected function getOptions()
+	{
+		return array(
+			array('example', null, InputOption::VALUE_OPTIONAL, 'An example option.', null),
+		);
+	}
 
 }
