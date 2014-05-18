@@ -2,7 +2,7 @@
     "require": {
         "laravel/framework": "4.1.*",
         "artdarek/neo4j-4-laravel": "dev-master",
-        "yangqi/htmldom": "dev-master"
+        "hasantayyar/synonyms": "dev-master"
     },
     "autoload": {
         "classmap": [

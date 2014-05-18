@@ -35,7 +35,6 @@ return array(
         'Illuminate\View\ViewServiceProvider',
         'Illuminate\Workbench\WorkbenchServiceProvider',
         'Artdarek\Neo4j\Neo4jServiceProvider',
-        'Yangqi\Htmldom\HtmldomServiceProvider',
     ),
     'manifest' => storage_path() . '/meta',
     'aliases' => array(
@@ -76,6 +75,5 @@ return array(
         'URL' => 'Illuminate\Support\Facades\URL',
         'Validator' => 'Illuminate\Support\Facades\Validator',
         'View' => 'Illuminate\Support\Facades\View',
-        'Htmldom' => 'Yangqi\Htmldom\Htmldom',
     ),
 );

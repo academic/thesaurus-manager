@@ -16,6 +16,20 @@ Check
     chmod -R 777 app/storage
 
 
+
+Cli tools
+---------
+
+**Get Suggestions From thesaurus.com**
+
+    php artisan suggestions:thesaurus <word>
+
+
+**Get Suggestions From google.com**
+
+    php artisan suggestions:google <word>
+
+
 Demo
 ----
 
