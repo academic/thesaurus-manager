@@ -8,19 +8,13 @@
             @show
         </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        @section('css')
         <link href="{{{ asset('assets/css/bootstrap.min.css') }}}" rel="stylesheet">
-
-        <style>
-            @section('styles')
-
-            @show
-        </style> 
-
+        @show
         <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
-
         <!-- Favicons
         ================================================== -->
         <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{{ asset('assets/ico/apple-touch-icon-144-precomposed.png') }}}">
@@ -48,10 +42,19 @@
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
                         <li {{{ (Request::is('/') ? 'class="active"' : '') }}}><a href="{{{ URL::to('') }}}">Home</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Words <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/nodes/add">Add</a></li>
+                                <li><a href="/nodes/search">Search</a></li>
+                                <li><a href="/nodes/graph-editor/1">Graph Editor Demo</a></li>
+                            </ul>
+
+                        </li>
                     </ul>
 
-                    <ul class="nav navbar-nav navbar-right">
-                        @if (Auth::check())
+                    <ul class="nav navbar-nav navbar-right ">
+                        @if (Auth::check()) 
                         <li {{{ (Request::is('account') ? 'class="active"' : '') }}}>
                             <a href="{{{ URL::to('account') }}}">Logged in as {{{ Auth::user()->fullName() }}}</a>
                         </li>
@@ -76,7 +79,10 @@
 
             @yield('content')
         </div>
+        @section('js')
         <script src="{{{ asset('assets/js/jquery.min.js') }}}"></script>
         <script src="{{{ asset('assets/js/bootstrap.min.js') }}}"></script>
+        @show
+
     </body>
 </html>

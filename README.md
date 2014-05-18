@@ -1,5 +1,9 @@
 **Warning** This project is still under developement.
 
+Open Thesaurus Manager
+======================
+
+
 
 Install
 -------
