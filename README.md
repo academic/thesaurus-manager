@@ -24,6 +24,11 @@ Check
 Cli tools
 ---------
 
+**Add sample data to test**
+
+    php artisan sampledata
+
+
 **Get Suggestions From thesaurus.com**
 
     php artisan suggestions:thesaurus <word>
