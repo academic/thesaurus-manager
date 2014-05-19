@@ -43,7 +43,10 @@ class Node {
      * @param Everyman\Neo4j\Client $client
      * @return \Everyman\Neo4j\Index\NodeIndex
      */
-    static function getIndex($client) {
+    static function getIndex($client = NULL) {
+        if (empty($client)) {
+            $client = new Everyman\Neo4j\Client();
+        }
         $thesarusIndex = new Everyman\Neo4j\Index\NodeIndex($client, 'thesaurus');
         return $thesarusIndex;
     }

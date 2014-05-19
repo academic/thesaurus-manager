@@ -11,8 +11,8 @@
     <h1>Graph Editor</h1>
 </div> 
 <div class="col-md-12">
-    <a class="btn btn-success">Add An Existing Word</a> <a onclick="return confirm('Are you sure?')?location.reload():''"  class="btn btn-warning">Reset Work</a>
-</div>
+    <a class="btn btn-success">Add An Existing Word</a> <a onclick="return confirm('Are you sure?') ? location.reload() : ''"  class="btn btn-warning">Reset Work</a>
+</div> 
 <input class="form-control hidden" id="selected" />
 <div id="graph"></div>
 
@@ -20,6 +20,14 @@
 
 @section('js')
 @parent
+<script>
+    var nodes = [
+            @if(isset($nodes))
+            @foreach ($nodes as $node)
+            {id: {{{$node->getId()}}} , reflexive: false, data: "{{{$node->getProperty("word")}}}" },
+            @endforeach
+            @endif
+    ];</script>
 <script src="{{{ asset('assets/js/d3.v3.min.js') }}}"></script>
 <script src="{{{ asset('assets/js/grapheditor.js') }}}"></script>
 

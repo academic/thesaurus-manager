@@ -1,6 +1,7 @@
 <?php
 
-use Artdarek\Neo4j\Facades\Neo4j as Neo4j;
+use Everyman\Neo4j\Traversal;
+use Everyman\Neo4j\Relationship;
 
 class NodesController extends BaseController {
 
@@ -9,7 +10,7 @@ class NodesController extends BaseController {
     }
 
     public function postSearch() {
-        $word = Input::get('thesaurus');
+        $word = Input::get('word');
         $client = new Everyman\Neo4j\Client();
         $thesarusIndex = new Everyman\Neo4j\Index\NodeIndex($client, 'thesaurus');
         $matches = $thesarusIndex->query('word:*' . $word . '*');
@@ -33,8 +34,6 @@ class NodesController extends BaseController {
         $word1 = Input::get('word1');
         $word2 = Input::get('word2');
         $level = (int) Input::get('level');
-        $client = new Everyman\Neo4j\Client();
-        $thesaurusIndex = Node::getIndex($client);
 
         $node1 = Node::addNode($word1);
         $node2 = Node::addNode($word2);
@@ -45,7 +44,15 @@ class NodesController extends BaseController {
     }
 
     public function getGraphEditor($id = NULL) {
-        return View::make('nodes/graph-editor');
+        $client = new Everyman\Neo4j\Client();
+        $node = $client->getNode($id);
+        $traversal = new Everyman\Neo4j\Traversal($client);
+        $traversal->addRelationship('RELATED', Relationship::DirectionOut)
+                ->setPruneEvaluator(Traversal::PruneNone)
+                ->setReturnFilter(Traversal::ReturnAll)
+                ->setMaxDepth(4);
+        $nodes = $traversal->getResults($node, Traversal::ReturnTypeNode);
+        return View::make('nodes/graph-editor', array("nodes" => $nodes));
     }
 
 }

@@ -10,18 +10,20 @@
     {{ Form::token() }}
 
     <div class="form-group">
-        <input type="text" placeholder="thesaurus " name="thesaurus" id="thesaurus" 
+        <input type="text" placeholder="word " name="word" id="thesaurus" 
                class="form-control input-lg" />
-        {{ $errors->first('thesaurus') }}
+        {{ $errors->first('word') }}
     </div>
 
 
 </form>
 <br>
 <div class="col-md-12">
-@foreach ($results as $item)
-<p><a href="/nodes/graph-editor/{{$item['id']}}">{{ $item['properties']['word'] }}</a></p>
-@endforeach
+    @if(isset($results))
+    @foreach ($results as $item)
+    <p><a href="/nodes/graph-editor/{{$item['id']}}">{{ $item['properties']['word'] }}</a></p>
+    @endforeach
+    @endif
 </div>
 
 @stop
