@@ -11,15 +11,7 @@ Install
     composer install
     php artisan migrate
     php artisan db:seed
-
-
-Check
------
-
-    chmod -R 775 app/storage
-    chmod -R 777 app/storage
-
-
+    php artisan sampledata
 
 Cli tools
 ---------
