@@ -19,8 +19,8 @@ var nodes = [
 ],
         lastNodeId = 2,
         links = [
-            {source: nodes[0], target: nodes[1], left: false, right: true},
-            {source: nodes[1], target: nodes[2], left: false, right: true}
+            {source: nodes[0], target: nodes[1], left: true, right: true},
+            {source: nodes[1], target: nodes[2], left: true, right: true}
         ];
 
 // init D3 force layout
@@ -167,7 +167,7 @@ function restart() {
 
     g.append('svg:circle')
             .attr('class', 'node')
-            .attr('r', 20)
+            .attr('r', 6)
             .style('fill', function(d) {
                 return (d === selected_node) ? d3.rgb(colors(d.id)).brighter().toString() : colors(d.id);
             })
@@ -268,12 +268,9 @@ function restart() {
     // show node IDs
     g.append('svg:text')
             .attr('x', 0)
-            .attr('y', 6)
+            .attr('y', -12)
             .attr('class', 'id')
             .text(function(d) {
-                return d.data;
-            })
-            .attr('title', function(d) {
                 return d.data;
             });
 

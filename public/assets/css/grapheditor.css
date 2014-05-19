@@ -15,7 +15,7 @@ svg:not(.active):not(.ctrl) {
 path.link {
   fill: none;
   stroke: #000;
-  stroke-width: 4px;
+  stroke-width: 2px;
   cursor: default;
 }
 
@@ -24,7 +24,7 @@ svg:not(.active):not(.ctrl) path.link {
 }
 
 path.link.selected {
-  stroke-dasharray: 10,2;
+  stroke-dasharray: 10,2px;
 }
 
 path.link.dragline {
@@ -53,4 +53,5 @@ text {
 text.id {
   text-anchor: middle;
   font-size:10px;
+  fill: #fff;
 }

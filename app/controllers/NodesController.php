@@ -29,23 +29,22 @@ class NodesController extends BaseController {
         return View::make('nodes/add');
     }
 
-    public function getGraphEditor($id = NULL) {
-        return View::make('nodes/graph-editor');
+    public function postAdd() {
+        $word1 = Input::get('word1');
+        $word2 = Input::get('word2');
+        $level = (int) Input::get('level');
+        $client = new Everyman\Neo4j\Client();
+        $thesaurusIndex = Node::getIndex($client);
+
+        $node1 = Node::addNode($word1);
+        $node2 = Node::addNode($word2);
+
+        Node::addRelation($node1, $node2, $level);
+        return Redirect::to('nodes/add');
     }
 
-    public function postAdd() {
-        $word = Input::get('thesaurus');
-        $client = new Everyman\Neo4j\Client();
-        $thesarusIndex = new Everyman\Neo4j\Index\NodeIndex($client, 'thesaurus');
-
-        $thesarus = Neo4j::makeNode();
-        $thesarus->setProperty('word', $word)
-                ->save();
-
-        $thesarusIndex->add($thesarus, 'word', $thesarus->getProperty('word'));
-
-        $thesarusId = $thesarus->getId();
-        return Redirect::to('nodes/add');
+    public function getGraphEditor($id = NULL) {
+        return View::make('nodes/graph-editor');
     }
 
 }

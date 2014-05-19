@@ -1,23 +1,23 @@
 <?php
 
 use Illuminate\Console\Command;
-use Artdarek\Neo4j\Facades\Neo4j as Neo4j;
+use Symfony\Component\Console\Input\InputArgument;
 
-class SampleData extends Command {
+class AddWord extends Command {
 
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'sampledata';
+    protected $name = 'word:add';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Insert sample data to neo4j';
+    protected $description = 'add new word';
 
     /**
      * Create a new command instance.
@@ -34,13 +34,8 @@ class SampleData extends Command {
      * @return mixed
      */
     public function fire() {
-        $data = array("Bacteria", "Biology", "Virus");
-        Node::createIndex();
-        foreach ($data as $word) {
-            $thesaurus = Node::addNode($word);
-            $thesaurusId = $thesaurus->getId();
-            echo $word . " added with " . $thesaurusId . "\n";
-        }
+        $word = $this->argument('word');
+        Node::addNode($word);
     }
 
     /**
@@ -49,7 +44,10 @@ class SampleData extends Command {
      * @return array
      */
     protected function getArguments() {
-        return array();
+        return array(
+            array('word', InputArgument::REQUIRED,
+                'The word to be added'),
+        );
     }
 
     /**
