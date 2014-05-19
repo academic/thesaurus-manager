@@ -40,6 +40,7 @@ class NodesController extends BaseController {
         $node2 = Node::addNode($word2);
 
         Node::addRelation($node1, $node2, $level);
+        Node::addRelation($node2, $node1, $level);
         return Redirect::to('nodes/add');
     }
 
