@@ -16,7 +16,7 @@
         <a class="label label-info" href="http://thesaurus.com/browse/{{ $node->getProperty("word") }}">thesaurus</a>
         <a class="label label-info" href="https://duckduckgo.com/?q={{ $node->getProperty("word") }}">duckduckgo</a>
         <a class="label label-info" href="https://www.google.com/search?q={{ $node->getProperty("word") }}">google</a>
-        <a class="label label-info" href="http://words.bighugelabs.com/{{ $node->getProperty("word") }}">google</a>
+        <a class="label label-info" href="http://words.bighugelabs.com/{{ $node->getProperty("word") }}">words.bighugelabs</a>
 
 
     </p>
