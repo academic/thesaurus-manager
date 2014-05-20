@@ -30,6 +30,24 @@ class NodesController extends BaseController {
         return View::make('nodes/add');
     }
 
+    /**
+     * ajax request from model on graph-editor page
+     * @param int|NULL $relatedId
+     * @return Everyman\Neo4j\Node
+     */
+    public function getAddnode($relatedId = NULL) {
+        $client = new Everyman\Neo4j\Client();
+        $word = Input::get('word');
+        $node = Node::addNode($word);
+        if ($relatedId) {
+            $nodeRelated = $client->getNode($relatedId);
+            $level = (int) Input::get('level');
+            Node::addRelation($nodeRelated, $node, $level);
+            Node::addRelation($node, $nodeRelated, $level);
+        }
+        return json_encode(array("id" => $node->getId()));
+    }
+
     public function postAdd() {
         $word1 = Input::get('word1');
         $word2 = Input::get('word2');
@@ -40,7 +58,7 @@ class NodesController extends BaseController {
 
         Node::addRelation($node1, $node2, $level);
         Node::addRelation($node2, $node1, $level);
-        return Redirect::to('nodes/add');
+        return Redirect::to('nodes/graph-editor/' . $node1->getId());
     }
 
     public function getGraphEditor($id = NULL) {
