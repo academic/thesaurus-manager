@@ -16,7 +16,8 @@
         <a class="label label-info" href="http://thesaurus.com/browse/{{ $node->getProperty("word") }}">thesaurus</a>
         <a class="label label-info" href="https://duckduckgo.com/?q={{ $node->getProperty("word") }}">duckduckgo</a>
         <a class="label label-info" href="https://www.google.com/search?q={{ $node->getProperty("word") }}">google</a>
-         
+        <a class="label label-info" href="http://words.bighugelabs.com/{{ $node->getProperty("word") }}">google</a>
+
 
     </p>
 </div>
@@ -39,7 +40,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="addNodeModalLabel">Add Word</h4>
             </div>
-      
+
 
             <div class="modal-body">
                 <form method="POST" action="/nodes/add" class="form col-md-12 center-block">
@@ -72,10 +73,10 @@
                 </form>
 
             </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
         </div>
     </div>
 </div>
