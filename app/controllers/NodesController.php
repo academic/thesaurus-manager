@@ -46,13 +46,14 @@ class NodesController extends BaseController {
     public function getGraphEditor($id = NULL) {
         $client = new Everyman\Neo4j\Client();
         $node = $client->getNode($id);
+        $index = Node::getIndex($client);
         $traversal = new Everyman\Neo4j\Traversal($client);
         $traversal->addRelationship('RELATED', Relationship::DirectionOut)
                 ->setPruneEvaluator(Traversal::PruneNone)
                 ->setReturnFilter(Traversal::ReturnAll)
                 ->setMaxDepth(4);
         $nodes = $traversal->getResults($node, Traversal::ReturnTypeNode);
-        return View::make('nodes/graph-editor', array("nodes" => $nodes));
+        return View::make('nodes/graph-editor', array('nodes' => $nodes, 'node' => $node));
     }
 
 }

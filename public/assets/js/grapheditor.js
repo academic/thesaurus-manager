@@ -12,15 +12,16 @@ var svg = d3.select('#graph')
 //  - nodes are known by 'id', not by index in array.
 //  - reflexive edges are indicated on the node (as a bold black circle).
 //  - links are always source < target; edge directions are set by 'left' and 'right'.
-var nodes = [
-    {id: 0, reflexive: false, data: "test"},
-    {id: 1, reflexive: true, data: "test 2"},
-    {id: 2, reflexive: false, data: "test 3"}
-],
-        lastNodeId = 2,
+//  
+//var nodes = [
+//    {id: 0, reflexive: false, data: "test"},
+//    {id: 1, reflexive: true, data: "test 2"},
+//    {id: 2, reflexive: false, data: "test 3"}
+//];
+var lastNodeId = 2,
         links = [
-            {source: nodes[0], target: nodes[1], left: true, right: true},
-            {source: nodes[1], target: nodes[2], left: true, right: true}
+//            {source: nodes[0], target: nodes[1], left: true, right: true},
+//            {source: nodes[1], target: nodes[2], left: true, right: true}
         ];
 
 // init D3 force layout
