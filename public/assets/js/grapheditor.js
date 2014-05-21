@@ -131,9 +131,6 @@ function restart() {
                 return d.right ? 'url(#end-arrow)' : '';
             })
             .on('mousedown', function(d) {
-                if (d3.event.ctrlKey)
-                    return;
-
                 // select link
                 mousedown_link = d;
                 if (mousedown_link === selected_link)
@@ -190,9 +187,7 @@ function restart() {
                 // unenlarge target node
                 d3.select(this).attr('transform', '');
             })
-            .on('mousedown', function(d) {
-                if (d3.event.ctrlKey)
-                    return;
+            .on('mousedown', function(d) { 
 
                 // select node
                 mousedown_node = d;
@@ -289,7 +284,7 @@ function mousedown() {
     // because :active only works in WebKit?
     svg.classed('active', true);
 
-    if (d3.event.ctrlKey || mousedown_node || mousedown_link)
+    if ( mousedown_node || mousedown_link)
         return;
 
     // insert new node at point
@@ -335,84 +330,9 @@ function spliceLinksForNode(node) {
     });
 }
 
-// only respond once per keydown
-var lastKeyDown = -1;
-
-function keydown() {
-    d3.event.preventDefault();
-
-    if (lastKeyDown !== -1)
-        return;
-    lastKeyDown = d3.event.keyCode;
-
-    // ctrl
-    if (d3.event.keyCode === 17) {
-        circle.call(force.drag);
-        svg.classed('ctrl', true);
-    }
-
-    if (!selected_node && !selected_link)
-        return;
-    switch (d3.event.keyCode) {
-        case 8: // backspace
-        case 46: // delete
-            if (selected_node) {
-                nodes.splice(nodes.indexOf(selected_node), 1);
-                spliceLinksForNode(selected_node);
-            } else if (selected_link) {
-                links.splice(links.indexOf(selected_link), 1);
-            }
-            selected_link = null;
-            selected_node = null;
-            restart();
-            break;
-        case 66: // B
-            if (selected_link) {
-                // set link direction to both left and right
-                selected_link.left = true;
-                selected_link.right = true;
-            }
-            restart();
-            break;
-        case 76: // L
-            if (selected_link) {
-                // set link direction to left only
-                selected_link.left = true;
-                selected_link.right = false;
-            }
-            restart();
-            break;
-        case 82: // R
-            if (selected_node) {
-                // toggle node reflexivity
-                selected_node.reflexive = !selected_node.reflexive;
-            } else if (selected_link) {
-                // set link direction to right only
-                selected_link.left = false;
-                selected_link.right = true;
-            }
-            restart();
-            break;
-    }
-}
-
-function keyup() {
-    lastKeyDown = -1;
-
-    // ctrl
-    if (d3.event.keyCode === 17) {
-        circle
-                .on('mousedown.drag', null)
-                .on('touchstart.drag', null);
-        svg.classed('ctrl', false);
-    }
-}
-
 // app starts here
 svg.on('mousedown', mousedown)
         .on('mousemove', mousemove)
         .on('mouseup', mouseup);
-d3.select(window)
-        .on('keydown', keydown)
-        .on('keyup', keyup);
+
 restart();
