@@ -47,7 +47,6 @@
                             <ul class="dropdown-menu">
                                 <li><a href="/nodes/add">Add</a></li>
                                 <li><a href="/nodes/search">Search</a></li>
-                                <li><a href="/nodes/graph-editor/1">Graph Editor Demo</a></li>
                             </ul>
 
                         </li>
@@ -55,17 +54,22 @@
 
                     <ul class="nav navbar-nav navbar-right ">
                         @if (Auth::check()) 
+                        <!-- 
                         <li {{{ (Request::is('account') ? 'class="active"' : '') }}}>
                             <a href="{{{ URL::to('account') }}}">Logged in as {{{ Auth::user()->fullName() }}}</a>
                         </li>
+                        -->
                         <li><a href="{{{ URL::to('account/logout') }}}">Logout</a></li>
                         @else
+
                         <li {{{ (Request::is('account/login') ? 'class="active"' : '') }}}>
                             <a href="{{{ URL::to('account/login') }}}">Login</a>
                         </li>
+                        <!-- 
                         <li {{{ (Request::is('account/register') ? 'class="active"' : '') }}}>
                             <a href="{{{ URL::to('account/register') }}}">Register</a>
                         </li>
+                        -->
                         @endif
                     </ul>
                 </div>
