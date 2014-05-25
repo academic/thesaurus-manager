@@ -73,7 +73,7 @@ class NodesController extends BaseController {
         $nodes = $traversal->getResults($node, Traversal::ReturnTypeNode);
         $nodeIds = array();
         foreach ($nodes as $tmp) {
-            $nodeIds[] = $tmp->getId();
+            $nodeWords[] = $tmp->getProperty("word");
         }
         $relations = array();
         foreach ($nodes as $n) {
@@ -82,11 +82,11 @@ class NodesController extends BaseController {
             foreach ($rels as $rel) {
                 $startNode = $rel->getStartNode();
                 $endNode = $rel->getEndNode();
-                $relArray['source'] = "nodes[" . array_search($startNode->getId(), $nodeIds) . "]";
-                $relArray['target'] = "nodes[" . array_search($endNode->getId(), $nodeIds) . "]";
+                $relArray['source'] = $startNode->getProperty("word");
+                $relArray['target'] = $endNode->getProperty("word");
                 $relArray["left"] = FALSE;
                 $relArray["right"] = TRUE;
-                if (in_array($startNode->getId(), $nodeIds) && in_array($endNode->getId(), $nodeIds)) {
+                if (in_array($startNode->getProperty("word"), $nodeWords) && in_array($endNode->getProperty("word"), $nodeWords)) {
                     $relations[] = $relArray;
                 }
             }

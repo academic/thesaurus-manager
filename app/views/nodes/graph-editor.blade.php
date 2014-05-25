@@ -85,19 +85,12 @@
 @section('js')
 @parent
 <script>
-            var nodes = [
-                    @if($nodes)
-                    @foreach ($nodes as $node)
-            {id: {{{ $node->getId()}}}, reflexive: false, data: "{{{$node->getProperty("word")}}}" },
-                    @endforeach
-                    @endif
-            ];
-            var links = [ 
-                 @if($relations)
-                    @foreach ($relations as $relation)
-                {source: {{{ $relation["source"] }}}, target: {{{$relation["target"]}}} , left: true, right: true},
-                    @endforeach
-                    @endif 
+            var links = [
+                @if($relations)
+                @foreach ($relations as $relation)
+                {source: "{{{ $relation["source"] }}}", target: "{{{$relation["target"]}}}", type: "related"},
+                @endforeach
+                @endif
             ];</script>
 <script src="{{{ asset('assets/js/d3.v3.min.js') }}}"></script>
 <script src="{{{ asset('assets/js/grapheditor.js') }}}"></script>
