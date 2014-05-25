@@ -69,7 +69,7 @@ class NodesController extends BaseController {
         $traversal->addRelationship('RELATED', Relationship::DirectionOut)
                 ->setPruneEvaluator(Traversal::PruneNone)
                 ->setReturnFilter(Traversal::ReturnAll)
-                ->setMaxDepth(1);
+                ->setMaxDepth(2);
         $nodes = $traversal->getResults($node, Traversal::ReturnTypeNode);
         $nodeIds = array();
         foreach ($nodes as $tmp) {

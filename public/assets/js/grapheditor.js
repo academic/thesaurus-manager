@@ -8,18 +8,7 @@ var svg = d3.select('#graph')
         .attr('width', width)
         .attr('height', height);
 
-// set up initial nodes and links
-//  - nodes are known by 'id', not by index in array.
-//  - reflexive edges are indicated on the node (as a bold black circle).
-//  - links are always source < target; edge directions are set by 'left' and 'right'.
-//  
-//var nodes = [
-//    {id: 0, reflexive: false, data: "test"},
-//    {id: 1, reflexive: true, data: "test 2"},
-//    {id: 2, reflexive: false, data: "test 3"}
-//];
-var lastNodeId = 2;
-
+var lastNodeId = 1;
 
 // init D3 force layout
 var force = d3.layout.force()
@@ -162,7 +151,7 @@ function restart() {
 
     g.append('svg:circle')
             .attr('class', 'node')
-            .attr('r', 6)
+            .attr('r', 12)
             .style('fill', function(d) {
                 return (d === selected_node) ? d3.rgb(colors(d.id)).brighter().toString() : colors(d.id);
             })
