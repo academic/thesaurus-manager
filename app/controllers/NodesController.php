@@ -69,9 +69,32 @@ class NodesController extends BaseController {
         $traversal->addRelationship('RELATED', Relationship::DirectionOut)
                 ->setPruneEvaluator(Traversal::PruneNone)
                 ->setReturnFilter(Traversal::ReturnAll)
-                ->setMaxDepth(4);
+                ->setMaxDepth(1);
         $nodes = $traversal->getResults($node, Traversal::ReturnTypeNode);
-        return View::make('nodes/graph-editor', array('nodes' => $nodes, 'node' => $node));
+        $nodeIds = array();
+        foreach ($nodes as $tmp) {
+            $nodeIds[] = $tmp->getId();
+        }
+        $relations = array();
+        foreach ($nodes as $n) {
+            $rels = $n->getRelationships(array("RELATED"), Relationship::DirectionOut);
+            /* @var $rel Everyman\Neo4j\Relationship */
+            foreach ($rels as $rel) {
+                $startNode = $rel->getStartNode();
+                $endNode = $rel->getEndNode();
+                $relArray['source'] = "nodes[" . array_search($startNode->getId(), $nodeIds) . "]";
+                $relArray['target'] = "nodes[" . array_search($endNode->getId(), $nodeIds) . "]";
+                $relArray["left"] = FALSE;
+                $relArray["right"] = TRUE;
+                if (in_array($startNode->getId(), $nodeIds) && in_array($endNode->getId(), $nodeIds)) {
+                    $relations[] = $relArray;
+                }
+            }
+        }
+        return View::make('nodes/graph-editor', array(
+                    'nodes' => $nodes,
+                    'relations' => $relations,
+                    'node' => $node));
     }
 
 }

@@ -18,11 +18,8 @@ var svg = d3.select('#graph')
 //    {id: 1, reflexive: true, data: "test 2"},
 //    {id: 2, reflexive: false, data: "test 3"}
 //];
-var lastNodeId = 2,
-        links = [
-//            {source: nodes[0], target: nodes[1], left: true, right: true},
-//            {source: nodes[1], target: nodes[2], left: true, right: true}
-        ];
+var lastNodeId = 2;
+
 
 // init D3 force layout
 var force = d3.layout.force()
