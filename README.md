@@ -31,8 +31,10 @@ Cli tools
     php artisan suggestions:google <word>
 
 
-Demo
-----
+
+![preview](https://raw.githubusercontent.com/hasantayyar/thesaurus-manager/master/docs/grapheditor_demo.png)
+Demo User
+---------
 
     email: user@localhost.com
     password: user
