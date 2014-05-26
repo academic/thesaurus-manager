@@ -41,6 +41,8 @@ class SampleData extends Command {
         foreach (array("Bacteria", "Virus", "Microbe", "Pathogen", "Anatomy") as $word) {
             $thesaurus = Node::addNode($word);
             Node::addRelation($thesaurus, $root, 100);
+            Node::addRelation($root, $thesaurus, 100);
+
             $progress->advance(10);
         }
         $this->comment("\nAdded sample nodes and relations");
