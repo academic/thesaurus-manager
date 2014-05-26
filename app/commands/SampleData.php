@@ -34,13 +34,17 @@ class SampleData extends Command {
      * @return mixed
      */
     public function fire() {
-        $data = array("Bacteria", "Biology", "Virus");
         Node::createIndex();
-        foreach ($data as $word) {
+        $progress = $this->getHelperSet()->get('progress');
+        $progress->start($this->getOutput(), 50);
+        $root = Node::addNode("Biology");
+        foreach (array("Bacteria", "Virus", "Microbe", "Pathogen", "Anatomy") as $word) {
             $thesaurus = Node::addNode($word);
-            $thesaurusId = $thesaurus->getId();
-            echo $word . " added with " . $thesaurusId . "\n";
+            Node::addRelation($thesaurus, $root, 100);
+            $progress->advance(10);
         }
+        $this->comment("\nAdded sample nodes and relations");
+        $progress->finish();
     }
 
     /**
