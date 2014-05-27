@@ -10,10 +10,11 @@ class NodesController extends BaseController {
     }
 
     public function postSearch() {
-        $word = Input::get('word');
+        $word = \Illuminate\Support\Facades\Input::get('word');
         $client = new Everyman\Neo4j\Client();
         $thesarusIndex = new Everyman\Neo4j\Index\NodeIndex($client, 'thesaurus');
-        $matches = $thesarusIndex->query('word:*' . $word . '*');
+
+        $matches = $thesarusIndex->query('word:*' . urlencode($word) . '*');
         $results = array();
         foreach ($matches as $m) {
             $results[] = array('properties' => $m->getProperties(), 'id' => $m->getId());
@@ -49,8 +50,8 @@ class NodesController extends BaseController {
     }
 
     public function postAdd() {
-        $word1 = Input::get('word1');
-        $word2 = Input::get('word2');
+        $word1 = urlencode(Input::get('word1'));
+        $word2 = urlencode(Input::get('word2'));
         $level = (int) Input::get('level');
 
         $node1 = Node::addNode($word1);
@@ -73,7 +74,7 @@ class NodesController extends BaseController {
         $nodes = $traversal->getResults($node, Traversal::ReturnTypeNode);
         $nodeIds = array();
         foreach ($nodes as $tmp) {
-            $nodeWords[] = $tmp->getProperty("word");
+            $nodeWords[] = urldecode($tmp->getProperty("word"));
         }
         $relations = array();
         foreach ($nodes as $n) {
@@ -82,11 +83,13 @@ class NodesController extends BaseController {
             foreach ($rels as $rel) {
                 $startNode = $rel->getStartNode();
                 $endNode = $rel->getEndNode();
-                $relArray['source'] = $startNode->getProperty("word");
-                $relArray['target'] = $endNode->getProperty("word");
+                $startWord = urldecode($startNode->getProperty("word"));
+                $endWord = urldecode($endNode->getProperty("word"));
+                $relArray['source'] = $startWord;
+                $relArray['target'] = $endWord;
                 $relArray["left"] = FALSE;
                 $relArray["right"] = TRUE;
-                if (in_array($startNode->getProperty("word"), $nodeWords) && in_array($endNode->getProperty("word"), $nodeWords)) {
+                if (in_array($startWord, $nodeWords) && in_array($endWord, $nodeWords)) {
                     $relations[] = $relArray;
                 }
             }
