@@ -36,9 +36,18 @@ class SampleData extends Command {
     public function fire() {
         Node::createIndex();
         $progress = $this->getHelperSet()->get('progress');
-        $progress->start($this->getOutput(), 50);
+        $progress->start($this->getOutput(), 100);
         $root = Node::addNode("Biology");
         foreach (array("Bacteria", "Virus", "Microbe", "Pathogen", "Anatomy") as $word) {
+            $thesaurus = Node::addNode($word);
+            Node::addRelation($thesaurus, $root, 100);
+            Node::addRelation($root, $thesaurus, 100);
+
+            $progress->advance(10);
+        }
+
+        $root = Node::addNode("web development");
+        foreach (array("php", "nodejs", "ruby", "angularjs", "backbonejs") as $word) {
             $thesaurus = Node::addNode($word);
             Node::addRelation($thesaurus, $root, 100);
             Node::addRelation($root, $thesaurus, 100);
