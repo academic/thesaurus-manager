@@ -11,7 +11,6 @@ class SampleData extends Command {
      * @var string
      */
     protected $name = 'sampledata';
-    bi
 
     /**
      * The console command description.
