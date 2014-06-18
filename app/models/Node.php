@@ -68,6 +68,7 @@ class Node {
      * @param Everyman\Neo4j\Client $client
      */
     static function addNode($word) {
+        $word = strtolower($word);
         $client = new Everyman\Neo4j\Client(Config::get('database.connections.neo4j.default')['host']);
         $thesaurusIndex = Node::getIndex($client);
         $thesaurus = $thesaurusIndex->findOne('word', $word);
@@ -88,6 +89,7 @@ class Node {
     }
 
     static function deleteNodeByValue($word) {
+        $word = strtolower($word);
         $client = new Everyman\Neo4j\Client(Config::get('database.connections.neo4j.default')['host']);
         $thesarusIndex = Node::getIndex($client);
         $thesaurus = $thesarusIndex->findOne("word", $word);

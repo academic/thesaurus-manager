@@ -10,7 +10,7 @@ class NodesController extends BaseController {
     }
 
     public function postSearch() {
-        $word = \Illuminate\Support\Facades\Input::get('word');
+        $word = strtolower(\Illuminate\Support\Facades\Input::get('word'));
         $client = new Everyman\Neo4j\Client(Config::get('database.connections.neo4j.default')['host']);
         $thesarusIndex = new Everyman\Neo4j\Index\NodeIndex($client, 'thesaurus');
 
@@ -38,7 +38,7 @@ class NodesController extends BaseController {
      */
     public function getAddnode($relatedId = NULL) {
         $client = new Everyman\Neo4j\Client(Config::get('database.connections.neo4j.default')['host']);
-        $word = Input::get('word');
+        $word = strtolower(Input::get('word'));
         $node = Node::addNode($word);
         if ($relatedId) {
             $nodeRelated = $client->getNode($relatedId);
@@ -50,8 +50,8 @@ class NodesController extends BaseController {
     }
 
     public function postAdd() {
-        $word1 = urlencode(Input::get('word1'));
-        $word2 = urlencode(Input::get('word2'));
+        $word1 = strtolower(urlencode(Input::get('word1')));
+        $word2 = strtolower(urlencode(Input::get('word2')));
         $level = (int) Input::get('level');
 
         $node1 = Node::addNode($word1);
