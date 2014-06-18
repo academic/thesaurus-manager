@@ -11,7 +11,7 @@ class NodesController extends BaseController {
 
     public function postSearch() {
         $word = \Illuminate\Support\Facades\Input::get('word');
-        $client = new Everyman\Neo4j\Client();
+        $client = new Everyman\Neo4j\Client(Config::set('database.default', 'neo4j'));
         $thesarusIndex = new Everyman\Neo4j\Index\NodeIndex($client, 'thesaurus');
 
         $matches = $thesarusIndex->query('word:*' . urlencode($word) . '*');
@@ -37,7 +37,7 @@ class NodesController extends BaseController {
      * @return Everyman\Neo4j\Node
      */
     public function getAddnode($relatedId = NULL) {
-        $client = new Everyman\Neo4j\Client();
+        $client = new Everyman\Neo4j\Client(Config::set('database.default', 'neo4j'));
         $word = Input::get('word');
         $node = Node::addNode($word);
         if ($relatedId) {
@@ -63,7 +63,7 @@ class NodesController extends BaseController {
     }
 
     public function getGraphEditor($id = NULL) {
-        $client = new Everyman\Neo4j\Client();
+        $client = new Everyman\Neo4j\Client(Config::set('database.default', 'neo4j'));
         $node = $client->getNode($id);
         $index = Node::getIndex($client);
         $traversal = new Everyman\Neo4j\Traversal($client);

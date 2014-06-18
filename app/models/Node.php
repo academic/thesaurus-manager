@@ -11,7 +11,7 @@ class Node {
      * @param integer $level
      */
     static function addRelation($node1, $node2, $level) {
-        $client = new Everyman\Neo4j\Client();
+        $client = new Everyman\Neo4j\Client(Config::set('database.default', 'neo4j'));
         $relation = $client->makeRelationship();
         $relation->setStartNode($node1)
                 ->setEndNode($node2)
@@ -26,7 +26,7 @@ class Node {
      * @return Everyman\Neo4j\Node
      */
     static function checkRoot() {
-        $client = new Everyman\Neo4j\Client();
+        $client = new Everyman\Neo4j\Client(Config::set('database.default', 'neo4j'));
         $thesarusIndex = Node::getIndex($client);
         $word = Config::get('thesaurus.root_node_name');
         $root = $thesarusIndex->findOne("word", $word);
@@ -45,7 +45,7 @@ class Node {
      */
     static function getIndex($client = NULL) {
         if (empty($client)) {
-            $client = new Everyman\Neo4j\Client();
+            $client = new Everyman\Neo4j\Client(Config::set('database.default', 'neo4j'));
         }
         $thesarusIndex = new Everyman\Neo4j\Index\NodeIndex($client, 'thesaurus');
         return $thesarusIndex;
@@ -56,7 +56,7 @@ class Node {
      * @return type
      */
     static function createIndex() {
-        $client = new Everyman\Neo4j\Client();
+        $client = new Everyman\Neo4j\Client(Config::set('database.default', 'neo4j'));
         $thesarusIndex = Node::getIndex($client);
         $thesarusIndex->save();
     }
@@ -68,7 +68,7 @@ class Node {
      * @param Everyman\Neo4j\Client $client
      */
     static function addNode($word) {
-        $client = new Everyman\Neo4j\Client();
+        $client = new Everyman\Neo4j\Client(Config::set('database.default', 'neo4j'));
         $thesaurusIndex = Node::getIndex($client);
         $thesaurus = $thesaurusIndex->findOne('word', $word);
         if (empty($thesaurus)) {
@@ -88,7 +88,7 @@ class Node {
     }
 
     static function deleteNodeByValue($word) {
-        $client = new Everyman\Neo4j\Client();
+        $client = new Everyman\Neo4j\Client(Config::set('database.default', 'neo4j'));
         $thesarusIndex = Node::getIndex($client);
         $thesaurus = $thesarusIndex->findOne("word", $word);
         return $thesaurus->delete();
