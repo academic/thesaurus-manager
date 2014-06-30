@@ -36,14 +36,41 @@ class SampleData extends Command {
     public function fire() {
         Node::createIndex();
         $progress = $this->getHelperSet()->get('progress');
-        $progress->start($this->getOutput(), 50);
-        $root = Node::addNode("Biology");
-        foreach (array("Bacteria", "Virus", "Microbe", "Pathogen", "Anatomy") as $word) {
+        $progress->start($this->getOutput(), 100);
+        $root = Node::addNode("biology");
+        foreach (array("bacteria", "virus", "microbe", "pathogen", "anatomy") as $word) {
             $thesaurus = Node::addNode($word);
             Node::addRelation($thesaurus, $root, 100);
             Node::addRelation($root, $thesaurus, 100);
 
-            $progress->advance(10);
+            $progress->advance(5);
+        }
+
+        $root = Node::addNode("virus");
+        foreach (array("hiv", "ebola", "hepatitis b", "smallpox") as $word) {
+            $thesaurus = Node::addNode($word);
+            Node::addRelation($thesaurus, $root, 100);
+            Node::addRelation($root, $thesaurus, 100);
+
+            $progress->advance(5);
+        }
+        
+        $root = Node::addNode("bacteria");
+        foreach (array("clostridium botulinum", "salmonella", "tetanus", "vibrio cholera") as $word) {
+            $thesaurus = Node::addNode($word);
+            Node::addRelation($thesaurus, $root, 100);
+            Node::addRelation($root, $thesaurus, 100);
+
+            $progress->advance(5);
+        }
+
+        $root = Node::addNode("web development");
+        foreach (array("php", "nodejs", "ruby", "python", "javascript") as $word) {
+            $thesaurus = Node::addNode($word);
+            Node::addRelation($thesaurus, $root, 100);
+            Node::addRelation($root, $thesaurus, 100);
+
+            $progress->advance(5);
         }
         $this->comment("\nAdded sample nodes and relations");
         $progress->finish();

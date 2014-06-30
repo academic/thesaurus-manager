@@ -85,7 +85,7 @@ class AccountController extends AuthorizedController {
         $validator = Validator::make(Input::all(), $rules);
         if ($validator->passes()) {
             if (Auth::attempt(array('email' => $email, 'password' => $password))) {
-                return Redirect::to('account')->with('success', 'You have logged in successfully');
+                return Redirect::to('nodes/search')->with('success', 'You have logged in successfully');
             } else {
                 return Redirect::to('account/login')->with('error', 'Email/password invalid.');
             }
