@@ -52,7 +52,7 @@ class NodesController extends BaseController {
     public function postAdd() {
         $word1 = strtolower(urlencode(Input::get('word1')));
         $word2 = strtolower(urlencode(Input::get('word2')));
-        $language = strtolower(urlencode(Input::get('language')));
+        $language = strtolower(urlencode(Input::get('lang')));
         $level = (int) Input::get('level');
 
         $node1 = Node::addNode($word1, $language);

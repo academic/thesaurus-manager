@@ -17,13 +17,11 @@
         <a class="label label-info" href="https://duckduckgo.com/?q={{ $node->getProperty("word") }}">duckduckgo</a>
         <a class="label label-info" href="https://www.google.com/search?q={{ $node->getProperty("word") }}">google</a>
         <a class="label label-info" href="http://words.bighugelabs.com/{{ $node->getProperty("word") }}">words.bighugelabs</a>
-
-
     </p>
 </div>
 
 <div class="col-md-12">
-    <a class="btn btn-success" data-toggle="modal" data-target="#addNodeModal"><i class="glyphicon glyphicon-plus-sign"></i> Add Word</a> 
+    <a class="btn btn-success" data-toggle="modal" data-target="#addNodeModal"><i class="glyphicon glyphicon-plus-sign"></i> Add Related Word</a> 
     <a onclick="return confirm('Are you sure?') ? location.reload() : ''"  class="btn btn-warning">Reset Work</a>
 </div> 
 <div class="row">
@@ -38,22 +36,17 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="addNodeModalLabel">Add Word</h4>
-            </div>
-
+                <h4 class="modal-title" id="addNodeModalLabel">Add Related Word for <strong>{{ $node->getProperty("word") }}</strong></h4>
+            </div> 
 
             <div class="modal-body">
                 <form method="POST" action="/nodes/add" class="form col-md-12 center-block">
                     {{ Form::token() }}
-                    <div class="form-group col-md-5">
-                        <input type="text" placeholder="word1 " name="word1"  
-                               class="form-control input-lg" value="{{{$node->getProperty("word")}}}" />
-                    </div>
-                    <div class="col-md-1" style="text-align: center">
-                        <i class="glyphicon glyphicon-arrow-left"></i><i class="glyphicon glyphicon-arrow-right"></i>
-                    </div>
-                    <div class="form-group col-md-5">
-                        <input type="text" placeholder="word2 " name="word2"  
+                    <input type="hidden" name="word1" value="{{{$node->getProperty("word")}}}" />
+                    <input type="hidden" name="lang" value="{{{$node->getProperty("lang")}}}" />
+
+                    <div class="form-group col-md-12">
+                        <input type="text" placeholder="Related Word" name="word2"  
                                class="form-control input-lg" />
                     </div>
 
@@ -85,13 +78,13 @@
 @section('js')
 @parent
 <script>
-            var links = [
-                @if($relations)
-                @foreach ($relations as $relation)
-                {source: "{{{ $relation["source"] }}}", target: "{{{$relation["target"]}}}", type: "related"},
-                @endforeach
-                @endif
-            ];</script>
+    var links = [
+            @if($relations)
+            @foreach ($relations as $relation)
+    {source: "{{{ $relation["source"] }}}", target: "{{{$relation["target"]}}}", type: "related"},
+            @endforeach
+    @endif
+    ];</script>
 <script src="{{{ asset('assets/js/d3.v3.min.js') }}}"></script>
 <script src="{{{ asset('assets/js/grapheditor.js') }}}"></script>
 
