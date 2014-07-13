@@ -42,26 +42,23 @@ class SampleData extends Command {
             $thesaurus = Node::addNode($word);
             Node::addRelation($thesaurus, $root, 100);
             Node::addRelation($root, $thesaurus, 100);
-
-            $progress->advance(5);
+            $progress->advance(4);
         }
 
         $root2 = Node::addNode("virus");
-        foreach (array("hiv", "ebola", "hepatitis b", "smallpox") as $word) {
+        foreach (array("hiv", "ebola", "hepatitis b", "smallpox", "b19") as $word) {
             $thesaurus = Node::addNode($word);
             Node::addRelation($thesaurus, $root2, 100);
             Node::addRelation($root2, $thesaurus, 100);
-
-            $progress->advance(5);
+            $progress->advance(4);
         }
-        
+
         $root3 = Node::addNode("bacteria");
-        foreach (array("clostridium botulinum", "salmonella", "tetanus", "vibrio cholera") as $word) {
+        foreach (array("clostridium botulinum", "salmonella", "tetanus", "vibrio cholera", "chlamydia") as $word) {
             $thesaurus = Node::addNode($word);
             Node::addRelation($thesaurus, $root3, 100);
             Node::addRelation($root3, $thesaurus, 100);
-
-            $progress->advance(5);
+            $progress->advance(4);
         }
 
         $root4 = Node::addNode("web development");
@@ -69,10 +66,18 @@ class SampleData extends Command {
             $thesaurus = Node::addNode($word);
             Node::addRelation($thesaurus, $root4, 100);
             Node::addRelation($root4, $thesaurus, 100);
+            $progress->advance(4);
+        }
 
-            $progress->advance(5);
+        $root5 = Node::addNode("archaeology");
+        foreach (array("hittite", "paleontology", "prehistory", "excavation", "paleology") as $word) {
+            $thesaurus = Node::addNode($word);
+            Node::addRelation($thesaurus, $root5, 80);
+            Node::addRelation($root5, $thesaurus, 80);
+            $progress->advance(4);
         }
         $this->comment("\nAdded sample nodes and relations");
+        $this->comment("Try searching 'bacteria' from '/nodes/search' ");
         $progress->finish();
     }
 
