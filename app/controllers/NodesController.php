@@ -63,6 +63,19 @@ class NodesController extends BaseController {
         return Redirect::to('nodes/graph-editor/' . $node1->getId());
     }
 
+    public function postAddSynonym() {
+        $word1 = strtolower(urlencode(Input::get('word1')));
+        $word2 = strtolower(urlencode(Input::get('word2')));
+        $language = strtolower(urlencode(Input::get('lang')));
+
+        $node1 = Node::addNode($word1, $language);
+        $node2 = Node::addNode($word2, $language);
+
+        Node::addRelation($node1, $node2, NULL, 'SYNONYM');
+        Node::addRelation($node2, $node1, NULL, 'SYNONYM');
+        return Redirect::to('nodes/graph-editor/' . $node1->getId());
+    }
+
     public function getGraphEditor($id = NULL) {
         $client = new Everyman\Neo4j\Client(Config::get('database.connections.neo4j.default')['host']);
         $node = $client->getNode($id);
@@ -73,6 +86,14 @@ class NodesController extends BaseController {
                 ->setReturnFilter(Traversal::ReturnAll)
                 ->setMaxDepth(2);
         $nodes = $traversal->getResults($node, Traversal::ReturnTypeNode);
+
+        $traversal2 = new Everyman\Neo4j\Traversal($client);
+        $traversal2->addRelationship('SYNONYM', Relationship::DirectionOut)
+                ->setPruneEvaluator(Traversal::PruneNone)
+                ->setReturnFilter(Traversal::ReturnAll)
+                ->setMaxDepth(2);
+        $nodesSynonym = $traversal2->getResults($node, Traversal::ReturnTypeNode);
+
         $nodeIds = array();
         foreach ($nodes as $tmp) {
             $nodeWords[] = urldecode($tmp->getProperty("word"));
@@ -97,6 +118,7 @@ class NodesController extends BaseController {
         }
         return View::make('nodes/graph-editor', array(
                     'nodes' => $nodes,
+                    'nodesSynonym' => $nodesSynonym,
                     'relations' => $relations,
                     'node' => $node));
     }

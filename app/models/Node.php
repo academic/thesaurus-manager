@@ -10,14 +10,16 @@ class Node {
      * @param Everyman\Neo4j\Node $node2
      * @param integer $level
      */
-    static function addRelation($node1, $node2, $level) {
+    static function addRelation($node1, $node2, $level = NULL, $type = 'RELATED') {
         $client = new Everyman\Neo4j\Client(Config::get('database.connections.neo4j.default')['host']);
         $relation = $client->makeRelationship();
         $relation->setStartNode($node1)
                 ->setEndNode($node2)
-                ->setType('RELATED')
-                ->setProperty('level', $level)
-                ->save();
+                ->setType($type);
+        if ($level) {
+            $relation->setProperty('level', $level);
+        }
+        $relation->save();
         return $relation;
     }
 
@@ -80,7 +82,7 @@ class Node {
                     ->save();
             $thesaurusIndex->add($thesaurus, 'word', $thesaurus->getProperty('word'));
             $thesaurusIndex->add($thesaurus, 'lang', $thesaurus->getProperty('lang'));
-            // Link to root node 
+// Link to root node 
             $root = Node::checkRoot();
             $linkToRoot = $client->makeRelationship();
             $linkToRoot->setStartNode($thesaurus)

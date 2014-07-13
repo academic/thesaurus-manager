@@ -10,18 +10,43 @@
 <div class="page-header">
     <p>
         <a href="#"><h2>{{{ $node->getProperty("word")}}} <small>lang:{{{ $node->getProperty("lang")}}}</small></h2></a> 
-    </p>
-    <p>
-        <a class="label label-info" href="https://www.wordnik.com/words/{{ $node->getProperty("word") }}">wornik</a>
-        <a class="label label-info" href="http://thesaurus.com/browse/{{ $node->getProperty("word") }}">thesaurus</a>
-        <a class="label label-info" href="https://duckduckgo.com/?q={{ $node->getProperty("word") }}">duckduckgo</a>
-        <a class="label label-info" href="https://www.google.com/search?q={{ $node->getProperty("word") }}">google</a>
-        <a class="label label-info" href="http://words.bighugelabs.com/{{ $node->getProperty("word") }}">words.bighugelabs</a>
-    </p>
+    <div>
+        @if($nodesSynonym)
+        Synonyms : 
+        @foreach ($nodesSynonym as $synonym)
+        @if($synonym->getProperty("word")!=$node->getproperty("word"))
+        <span class="badge">{{$synonym->getProperty("word")}}</span>
+        @endif
+        @endforeach
+        @endif
+
+    </div>
+</p>
+<p>
+    <small>Check results on: </small>
+    <a class="label label-default" target="_blank"
+       href="https://www.wordnik.com/words/{{ $node->getProperty("word") }}">wornik</a>
+    <a class="label label-default" target="_blank"
+       href="http://thesaurus.com/browse/{{ $node->getProperty("word") }}">thesaurus</a>
+    <a class="label label-default" target="_blank"
+       href="https://duckduckgo.com/?q={{ $node->getProperty("word") }}">duckduckgo</a>
+    <a class="label label-default" target="_blank"
+       href="https://www.google.com/search?q={{ $node->getProperty("word") }}">google</a>
+    <a class="label label-default" target="_blank"
+       href="http://words.bighugelabs.com/{{ $node->getProperty("word") }}">words.bighugelabs</a>
+</p>
 </div>
 
 <div class="col-md-12">
-    <a class="btn btn-success" data-toggle="modal" data-target="#addNodeModal"><i class="glyphicon glyphicon-plus-sign"></i> Add Related Word</a> 
+    <a class="btn btn-success" data-toggle="modal" data-target="#addNodeModal">
+        <i class="glyphicon glyphicon-plus-sign"></i> Add Related Word
+    </a> 
+    <a class="btn btn-info" data-toggle="modal" data-target="#addSynonymModal">
+        <i class="glyphicon glyphicon-plus"></i> Add Synonym
+    </a> 
+
+
+    <!-- graph editor not implemented yet. so this button is useless as windows 95 -->
     <a onclick="return confirm('Are you sure?') ? location.reload() : ''"  class="btn btn-warning">Reset Work</a>
 </div> 
 <div class="row">
@@ -30,49 +55,11 @@
 <div id="graph"></div> 
 
 
-<!-- Modal -->
-<div class="modal fade" id="addNodeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="addNodeModalLabel">Add Related Word for <strong>{{ $node->getProperty("word") }}</strong></h4>
-            </div> 
+<!-- Modals -->
+@include('nodes.add-node-modal')
 
-            <div class="modal-body">
-                <form method="POST" action="/nodes/add" class="form col-md-12 center-block">
-                    {{ Form::token() }}
-                    <input type="hidden" name="word1" value="{{{$node->getProperty("word")}}}" />
-                    <input type="hidden" name="lang" value="{{{$node->getProperty("lang")}}}" />
+@include('nodes.add-synonym-modal')
 
-                    <div class="form-group col-md-12">
-                        <input type="text" placeholder="Related Word" name="word2"  
-                               class="form-control input-lg" />
-                    </div>
-
-                    <div class="form-group col-md-12"> 
-                        <select class="form-control input-lg" name="level">
-                            <option value="100">High</option>
-                            <option value="50">Medium</option>
-                            <option value="10">Low</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group col-md-12">
-                        <div class="controls">
-                            <button type="submit" class="btn btn-success btn-lg">Add</button>
-                        </div>
-                    </div>
-                </form>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>
 @stop
 
 @section('js')
