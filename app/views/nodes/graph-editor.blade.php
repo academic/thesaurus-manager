@@ -9,7 +9,7 @@
 
 <div class="page-header">
     <p>
-        <a href="#"><h2>{{{ $node->getProperty("word")}}}</h2></a> 
+        <a href="#"><h2>{{{ $node->getProperty("word")}}} <small>lang:{{{ $node->getProperty("lang")}}}</small></h2></a> 
     </p>
     <p>
         <a class="label label-info" href="https://www.wordnik.com/words/{{ $node->getProperty("word") }}">wornik</a>

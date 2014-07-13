@@ -64,19 +64,22 @@ class Node {
     /**
      * Add new node and link it to root node 
      * @param string $word
+     * @param string $lang
      * @param Everyman\Neo4j\Node $root
      * @param Everyman\Neo4j\Client $client
      */
-    static function addNode($word) {
+    static function addNode($word, $lang = 'en') {
         $word = strtolower($word);
         $client = new Everyman\Neo4j\Client(Config::get('database.connections.neo4j.default')['host']);
         $thesaurusIndex = Node::getIndex($client);
-        $thesaurus = $thesaurusIndex->findOne('word', $word);
+        $thesaurus = $thesaurusIndex->queryOne('word:"' . $word . '" AND lang:"' . $lang . '"');
         if (empty($thesaurus)) {
             $thesaurus = Neo4j::makeNode();
             $thesaurus->setProperty('word', $word)
+                    ->setProperty('lang', $lang)
                     ->save();
             $thesaurusIndex->add($thesaurus, 'word', $thesaurus->getProperty('word'));
+            $thesaurusIndex->add($thesaurus, 'lang', $thesaurus->getProperty('lang'));
             // Link to root node 
             $root = Node::checkRoot();
             $linkToRoot = $client->makeRelationship();

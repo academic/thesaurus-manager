@@ -46,29 +46,29 @@ class SampleData extends Command {
             $progress->advance(5);
         }
 
-        $root = Node::addNode("virus");
+        $root2 = Node::addNode("virus");
         foreach (array("hiv", "ebola", "hepatitis b", "smallpox") as $word) {
             $thesaurus = Node::addNode($word);
-            Node::addRelation($thesaurus, $root, 100);
-            Node::addRelation($root, $thesaurus, 100);
+            Node::addRelation($thesaurus, $root2, 100);
+            Node::addRelation($root2, $thesaurus, 100);
 
             $progress->advance(5);
         }
         
-        $root = Node::addNode("bacteria");
+        $root3 = Node::addNode("bacteria");
         foreach (array("clostridium botulinum", "salmonella", "tetanus", "vibrio cholera") as $word) {
             $thesaurus = Node::addNode($word);
-            Node::addRelation($thesaurus, $root, 100);
-            Node::addRelation($root, $thesaurus, 100);
+            Node::addRelation($thesaurus, $root3, 100);
+            Node::addRelation($root3, $thesaurus, 100);
 
             $progress->advance(5);
         }
 
-        $root = Node::addNode("web development");
+        $root4 = Node::addNode("web development");
         foreach (array("php", "nodejs", "ruby", "python", "javascript") as $word) {
             $thesaurus = Node::addNode($word);
-            Node::addRelation($thesaurus, $root, 100);
-            Node::addRelation($root, $thesaurus, 100);
+            Node::addRelation($thesaurus, $root4, 100);
+            Node::addRelation($root4, $thesaurus, 100);
 
             $progress->advance(5);
         }
