@@ -3,7 +3,11 @@
 class HomeController extends BaseController {
 
     public function showIndex() {
-        return View::make('dashboard');
+        if ( ! Sentry::check())	{
+		return View::make('anonym');
+	} else {
+		return View::make('dashboard');
+	}
     }
 
 }

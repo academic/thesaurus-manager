@@ -6,7 +6,7 @@ use Everyman\Neo4j\Relationship;
 class NodesController extends BaseController {
 
     public function getIndex() {
-        return View::make('nodes/index');
+	return View::make('nodes/index');
     }
 
     public function postSearch() {
@@ -28,7 +28,10 @@ class NodesController extends BaseController {
     }
 
     public function getAdd() {
-        return View::make('nodes/add');
+        if ( !Sentry::check() ){
+		return Redirect::to('/account/login');
+	}
+	return View::make('nodes/add');
     }
 
     /**
@@ -37,6 +40,9 @@ class NodesController extends BaseController {
      * @return Everyman\Neo4j\Node
      */
     public function getAddnode($relatedId = NULL) {
+	if ( !Sentry::check() ){
+            return Redirect::to('/account/login');
+        }
         $client = new Everyman\Neo4j\Client(Config::get('database.connections.neo4j.default')['host']);
         $word = strtolower(Input::get('word'));
         $node = Node::addNode($word);
@@ -50,6 +56,9 @@ class NodesController extends BaseController {
     }
 
     public function postAdd() {
+	if ( !Sentry::check() ){
+            return Redirect::to('/account/login');
+        }
         $word1 = strtolower(urlencode(Input::get('word1')));
         $word2 = strtolower(urlencode(Input::get('word2')));
         $language = strtolower(urlencode(Input::get('lang')));
@@ -64,7 +73,10 @@ class NodesController extends BaseController {
     }
 
     public function postAddSynonym() {
-        $word1 = strtolower(urlencode(Input::get('word1')));
+        if ( !Sentry::check() ){
+            return Redirect::to('/account/login');
+        }
+	$word1 = strtolower(urlencode(Input::get('word1')));
         $word2 = strtolower(urlencode(Input::get('word2')));
         $language = strtolower(urlencode(Input::get('lang')));
 

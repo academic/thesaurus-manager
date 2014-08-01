@@ -11,6 +11,8 @@
 |
 */
 
+
+
 App::before(function($request)
 {
 	//
@@ -35,8 +37,11 @@ App::after(function($request, $response)
 
 Route::filter('auth', function()
 {
-	if (Auth::guest()) return Redirect::guest('account/login');
+	if(!Sentry::check()){
+		return Redirect::to('account/login');
+	}
 });
+
 
 
 Route::filter('auth.basic', function()

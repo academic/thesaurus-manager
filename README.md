@@ -34,7 +34,7 @@ Cli tools
 
 
 
-![preview](https://raw.githubusercontent.com/hasantayyar/thesaurus-manager/master/docs/grapheditor_demo.png)
+![preview](https://raw.githubusercontent.com/hasantayyar/thesaurus-manager/master/docs/alpha_preview3.png)
 Demo User
 ---------
 

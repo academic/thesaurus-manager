@@ -15,8 +15,6 @@
         <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
-        <!-- Favicons
-        ================================================== -->
         <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{{ asset('assets/ico/apple-touch-icon-144-precomposed.png') }}}">
         <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{{ asset('assets/ico/apple-touch-icon-114-precomposed.png') }}}">
         <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{{ asset('assets/ico/apple-touch-icon-72-precomposed.png') }}}">
@@ -35,13 +33,12 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Thesaurus</a>
+                    <a class="navbar-brand" href="{{{ URL::to('') }}}">Thesaurus</a>
                 </div>
 
 
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li {{{ (Request::is('/') ? 'class="active"' : '') }}}><a href="{{{ URL::to('') }}}">Home</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Words <b class="caret"></b></a>
                             <ul class="dropdown-menu">
@@ -52,13 +49,12 @@
                         </li>
                     </ul>
 
+
                     <ul class="nav navbar-nav navbar-right ">
-                        @if (Auth::check()) 
-                        <!-- 
+                        @if (Sentry::check()) 
                         <li {{{ (Request::is('account') ? 'class="active"' : '') }}}>
-                            <a href="{{{ URL::to('account') }}}">Logged in as {{{ Auth::user()->fullName() }}}</a>
+                            <a href="{{{ URL::to('account') }}}">Logged in as {{{ Sentry::getUser()->email }}}</a>
                         </li>
-                        -->
                         <li><a href="{{{ URL::to('account/logout') }}}">Logout</a></li>
                         @else
 
