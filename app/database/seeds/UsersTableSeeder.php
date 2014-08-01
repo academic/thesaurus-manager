@@ -18,6 +18,7 @@ class UsersTableSeeder extends Seeder {
     	'permissions' => array(
         	'admin' => 1,
         	'editor' => 1,
+            'canAdd' => 1
     	),
 	));
 	
@@ -26,6 +27,7 @@ class UsersTableSeeder extends Seeder {
         'permissions' => array(
                 'admin' => 0,
                 'editor' => 1,
+                'canAdd' => 1
         ),
         ));
 

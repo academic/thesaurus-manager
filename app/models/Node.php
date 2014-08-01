@@ -67,10 +67,17 @@ class Node {
      * Add new node and link it to root node 
      * @param string $word
      * @param string $lang
-     * @param Everyman\Neo4j\Node $root
-     * @param Everyman\Neo4j\Client $client
+     * @param boolean $forceAdd  if TRUE don't check for role and add as approved
      */
-    static function addNode($word, $lang = 'en') {
+    static function addNode($word, $lang = 'en', $forceAdd = FALSE) {
+        $user = Sentry::getUser();
+        $admin =  $user && $user->hasAccess('admin');
+        if(!$user && !$forceAdd ){
+            App::abort(403, 'Access denied');
+        }
+        if(!$user->hasAccess('canAdd')){
+            App::abort(401, 'Not authenticated');
+        }
         $word = strtolower($word);
         $client = new Everyman\Neo4j\Client(Config::get('database.connections.neo4j.default')['host']);
         $thesaurusIndex = Node::getIndex($client);
@@ -79,10 +86,12 @@ class Node {
             $thesaurus = Neo4j::makeNode();
             $thesaurus->setProperty('word', $word)
                     ->setProperty('lang', $lang)
+                    ->setProperty('approved', ($forceAdd || $admin))
                     ->save();
             $thesaurusIndex->add($thesaurus, 'word', $thesaurus->getProperty('word'));
             $thesaurusIndex->add($thesaurus, 'lang', $thesaurus->getProperty('lang'));
-// Link to root node 
+            $thesaurusIndex->add($thesaurus, 'approved', $thesaurus->getProperty('approved'));
+            // Link to root node 
             $root = Node::checkRoot();
             $linkToRoot = $client->makeRelationship();
             $linkToRoot->setStartNode($thesaurus)

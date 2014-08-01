@@ -10,10 +10,13 @@ If you want to create your own thesaurus this project will be a super fast solut
 Install
 -------
 
-    composer install
-    php artisan migrate
-    php artisan db:seed
-    php artisan sampledata
+```sh
+composer install
+# edit app/config/database.php
+php artisan migrate --package=cartalyst/sentry
+php artisan db:seed
+php artisan sampledata
+```
 
 Cli tools
 ---------

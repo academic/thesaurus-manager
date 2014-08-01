@@ -30,7 +30,7 @@ class AccountController extends AuthorizedController {
         $rules = array(
             'first_name' => 'Required',
             'last_name' => 'Required',
-            'email' => 'Required|Email|Unique:users,email,' . Auth::user()->email . ',email',
+            'email' => 'Required|Email|Unique:users,email,' . Sentry::getUser()->email . ',email',
         );
 
         if (Input::get('password')) {
