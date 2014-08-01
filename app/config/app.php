@@ -8,7 +8,8 @@ return array(
     'fallback_locale' => 'en',
     'key' => 'YourSecretKey!!!',
     'providers' => array(
-        'Illuminate\Foundation\Providers\ArtisanServiceProvider',
+        'Cartalyst\Sentry\SentryServiceProvider',
+	'Illuminate\Foundation\Providers\ArtisanServiceProvider',
         'Illuminate\Auth\AuthServiceProvider',
         'Illuminate\Cache\CacheServiceProvider',
         'Illuminate\Session\CommandsServiceProvider',
@@ -38,7 +39,8 @@ return array(
     ),
     'manifest' => storage_path() . '/meta',
     'aliases' => array(
-        'App' => 'Illuminate\Support\Facades\App',
+        'Sentry' => 'Cartalyst\Sentry\Facades\Laravel\Sentry',
+	'App' => 'Illuminate\Support\Facades\App',
         'Artisan' => 'Illuminate\Support\Facades\Artisan',
         'Auth' => 'Illuminate\Support\Facades\Auth',
         'Blade' => 'Illuminate\Support\Facades\Blade',
