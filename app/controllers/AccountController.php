@@ -18,9 +18,7 @@ class AccountController extends AuthorizedController {
      * @return   View
      */
     public function getIndex() {
-        // Show the page.
-        //
-		return View::make('account/index')->with('user', Auth::user());
+	return View::make('account/index')->with('user', Sentry::getUser());
     }
 
     /**
@@ -44,7 +42,7 @@ class AccountController extends AuthorizedController {
         $validator = Validator::make($inputs, $rules);
 
         if ($validator->passes()) {
-            $user = User::find(Auth::user()->id);
+            $user = User::find(Sentry::getUser()->id);
             $user->first_name = Input::get('first_name');
             $user->last_name = Input::get('last_name');
             $user->email = Input::get('email');
@@ -63,7 +61,7 @@ class AccountController extends AuthorizedController {
      * @return   View
      */
     public function getLogin() {
-        if (Auth::check()) {
+        if (Sentry::check()) {
             return Redirect::to('account');
         }
 
@@ -74,24 +72,34 @@ class AccountController extends AuthorizedController {
      * @access   public
      * @return   Redirect
      */
-    public function postLogin() {
-        $rules = array(
-            'email' => 'Required|Email',
-            'password' => 'Required'
-        );
-
-        $email = Input::get('email');
-        $password = Input::get('password');
-        $validator = Validator::make(Input::all(), $rules);
-        if ($validator->passes()) {
-            if (Auth::attempt(array('email' => $email, 'password' => $password))) {
-                return Redirect::to('nodes/search')->with('success', 'You have logged in successfully');
-            } else {
-                return Redirect::to('account/login')->with('error', 'Email/password invalid.');
-            }
+    public function postLogin() { 
+        $errorMessage = FALSE;
+        try
+        {
+            $credentials = array(
+                'email'    =>  Input::get('email'),
+                'password' => Input::get('password'),
+            );
+            $user = Sentry::authenticate($credentials, false);
+        } catch (Cartalyst\Sentry\Users\LoginRequiredException $e) {
+            $errorMessage[]='Login field is required.';
+        } catch (Cartalyst\Sentry\Users\PasswordRequiredException $e) {
+            $errorMessage[]='Password field is required.';
+        } catch (Cartalyst\Sentry\Users\WrongPasswordException $e) {
+            $errorMessage[]='Wrong password, try again.';
+        } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
+            $errorMessage[]= 'User was not found.';
+        } catch (Cartalyst\Sentry\Users\UserNotActivatedException $e) {
+            $errorMessage[]= 'User is not activated.';
+        } catch (Cartalyst\Sentry\Throttling\UserSuspendedException $e) {
+            $errorMessage[]= 'User is suspended.';
+        } catch (Cartalyst\Sentry\Throttling\UserBannedException $e) {
+            $errorMessage[]= 'User is banned.';
         }
-
-        return Redirect::to('account/login')->withErrors($validator->getMessageBag());
+        if($errorMessage){
+            return Redirect::to('account/login')->withError($errorMessage);
+        }
+        return Redirect::to('');
     }
 
     /**
@@ -99,10 +107,9 @@ class AccountController extends AuthorizedController {
      * @return   View
      */
     public function getRegister() {
-        if (Auth::check()) {
+        if (Sentry::check()) {
             return Redirect::to('account');
         }
-
         return View::make('account/register');
     }
 
@@ -138,7 +145,7 @@ class AccountController extends AuthorizedController {
      * @return   Redirect
      */
     public function getLogout() {
-        Auth::logout();
+        Sentry::logout();
 
         return Redirect::to('account/login')->with('success', 'Logged out with success!');
     }

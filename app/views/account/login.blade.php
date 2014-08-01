@@ -16,16 +16,13 @@
     <!-- CSRF Token -->
     <input type="hidden" name="csrf_token" id="csrf_token" value="{{{ Session::getToken() }}}" />
 
-    <div class="form-group {{{ $errors->has('email') ? 'error' : '' }}}">
+    <div class="form-group">
         <input type="text" class="form-control input-lg" 
                placeholder="Email" name="email" id="email" value="{{{ Input::old('email') }}}" />
-        {{{ $errors->first('email') }}}
     </div>
-    <div class="form-group {{{ $errors->has('password') ? 'error' : '' }}}">
+    <div class="form-group ">
         <input type="password" class="form-control input-lg" 
-               placeholder="Password" name="password" id="password" value="" />
-
-        {{{ $errors->first('password') }}}
+               placeholder="Password" name="password" id="password" value="" /> 
     </div>
     <div class="form-group">
         <button class="btn btn-primary btn-lg btn-block">Sign In</button>

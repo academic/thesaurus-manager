@@ -5,11 +5,13 @@ class UsersTableSeeder extends Seeder {
 	$admin = Sentry::register(array(
     			'email'    => 'admin@localhost.com',
     			'password' => 'admin',
+                'activated' => 1
 		));  
 	$editor = Sentry::register(array(
-                        'email'    => 'editor@localhost.com',
-                        'password' => 'editor',
-                ));
+                'email'    => 'editor@localhost.com',
+                'password' => 'editor',
+                'activated' => 1
+        ));
 	
 	$adminGroup = Sentry::createGroup(array(
     	'name'        => 'Managers',
