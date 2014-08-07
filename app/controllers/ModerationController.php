@@ -24,6 +24,17 @@ class ModerationController extends BaseController {
         if (!Sentry::check()) {
             return Redirect::to('/account/login');
         }
+        $user = Sentry::getUser();
+        if (!$user->hasAccess('admin')) {
+            App::abort(401, 'Not authenticated');
+        }
+
+        $client = new Everyman\Neo4j\Client(Config::get('database.connections.neo4j.default')['host']);
+        $node = $client->getNode($id);
+        $node->setProperty('approve', 1);
+        $node->save();
+        Node::renewNodeIndex(Node::getIndex($client), $node);
+        return Redirect::to('/moderation/new');
     }
 
     public function getDecline($id) {
@@ -33,12 +44,23 @@ class ModerationController extends BaseController {
         if (!Sentry::check()) {
             return Redirect::to('/account/login');
         }
+        $user = Sentry::getUser();
+        if (!$user->hasAccess('admin')) {
+            App::abort(401, 'Not authenticated');
+        }
+
+        $client = new Everyman\Neo4j\Client(Config::get('database.connections.neo4j.default')['host']);
+        $node = $client->getNode($id);
+        $node->setProperty('approve', -1);
+        $node->save();
+        Node::renewNodeIndex(Node::getIndex($client), $node);
+        return Redirect::to('/moderation/new');
     }
 
-    private function getNodesByApproved($approved = 1) {
+    private function getNodesByApproved($approve = 1) {
         $client = new Everyman\Neo4j\Client(Config::get('database.connections.neo4j.default')['host']);
         $thesarusIndex = new Everyman\Neo4j\Index\NodeIndex($client, 'thesaurus');
-        $matches = $thesarusIndex->query('approved:' . $approved);
+        $matches = $thesarusIndex->query('approve:' . $approve);
         $results = array();
         foreach ($matches as $m) {
             $results[] = array('properties' => $m->getProperties(), 'id' => $m->getId());

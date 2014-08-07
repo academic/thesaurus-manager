@@ -93,7 +93,7 @@ class NodesController extends BaseController {
         $node = $client->getNode($id);
         $user = Sentry::getUser();
         $admin = $user && $user->hasAccess('admin');
-        if (!$admin && $node->getProperty('approved') < 1) {
+        if (!$admin && $node->getProperty('approve') < 1) {
             App::abort(404, 'Not Found');
         }
         $index = Node::getIndex($client);
@@ -137,7 +137,8 @@ class NodesController extends BaseController {
                     'nodes' => $nodes,
                     'nodesSynonym' => $nodesSynonym,
                     'relations' => $relations,
-                    'node' => $node));
+                    'node' => $node,
+                    'admin' => $admin));
     }
 
 }

@@ -10,6 +10,19 @@
 <div class="page-header">
     <p>
         <a href="#"><h2>{{{ $node->getProperty("word")}}} <small>lang:{{{ $node->getProperty("lang")}}}</small></h2></a> 
+
+        @if($admin)
+            @if( $node->getProperty("approve") < 1 )
+            <a href="/moderation/approve/{{$node->getId()}}" class="btn btn-sm btn-success">
+                <i class="glyphicon glyphicon-ok"></i> Approve</a> 
+            @endif
+
+            @if( $node->getProperty('approve') != -1 )
+            <a href="/moderation/decline/{{$node->getId()}}" class="btn btn-sm btn-danger">
+                <i class="glyphicon glyphicon-ban-circle"></i> Decline</a>
+            @endif
+        @endif
+
     <div>
         @if($nodesSynonym)
         Synonyms : 

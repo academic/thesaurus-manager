@@ -13,7 +13,7 @@
             </a>
             <span class="pull-right">
                 <a href="/moderation/approve/{{$item['id']}}" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-ok"></i></a> 
-                <a href="/moderation/decline//{{$item['id']}}" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-ban-circle"></i></a>
+                <a href="/moderation/decline/{{$item['id']}}" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-ban-circle"></i></a>
             </span>
             <div class="row"></div>
         </li>

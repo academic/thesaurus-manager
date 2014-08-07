@@ -67,7 +67,7 @@ class Node {
      * Add new node and link it to root node 
      * @param string $word
      * @param string $lang
-     * @param boolean $forceAdd  if TRUE don't check for role and add as approved
+     * @param boolean $forceAdd  if TRUE don't check for role and add as approve
      */
     static function addNode($word, $lang = 'en', $forceAdd = FALSE) {
         $user = Sentry::getUser();
@@ -77,7 +77,7 @@ class Node {
          * cli client may add without user information with forceAdd parameter
          */
         if (!$user || ( $user && !$user->hasAccess('canAdd') )) {
-            if ($forceAdd === FALSE) { 
+            if ($forceAdd === FALSE) {
                 App::abort(401, 'Not authenticated');
             }
         }
@@ -89,14 +89,10 @@ class Node {
             $thesaurus = Neo4j::makeNode();
             $thesaurus->setProperty('word', $word)
                     ->setProperty('lang', $lang)
-                    ->setProperty('approved', $forceAdd ? 0 : 1)
+                    ->setProperty('approve', $forceAdd ? 0 : 1)
                     ->setProperty('userid', ($user ? $user->getId() : 0))
                     ->save();
-            $thesaurusIndex->add($thesaurus, 'word', $thesaurus->getProperty('word'));
-            $thesaurusIndex->add($thesaurus, 'lang', $thesaurus->getProperty('lang'));
-            $thesaurusIndex->add($thesaurus, 'approved', $thesaurus->getProperty('approved'));
-            $thesaurusIndex->add($thesaurus, 'user,d', $thesaurus->getProperty('userid'));
-
+            Node::addNodeIndex($thesaurusIndex, $thesaurus);
             // Link to root node 
             $root = Node::checkRoot();
             $linkToRoot = $client->makeRelationship();
@@ -106,6 +102,25 @@ class Node {
                     ->save();
         }
         return $thesaurus;
+    }
+
+    static function addNodeIndex($index, $node) {
+        $index->add($node, 'word', $node->getProperty('word'));
+        $index->add($node, 'lang', $node->getProperty('lang'));
+        $index->add($node, 'approve', $node->getProperty('approve'));
+        $index->add($node, 'userid', $node->getProperty('userid'));
+    }
+
+    static function renewNodeIndex($index, $node) {
+        $index->remove($node, 'word');
+        $index->remove($node, 'lang');
+        $index->remove($node, 'approve');
+        $index->remove($node, 'userid');
+
+        $index->add($node, 'word', $node->getProperty('word'));
+        $index->add($node, 'lang', $node->getProperty('lang'));
+        $index->add($node, 'approve', $node->getProperty('approve'));
+        $index->add($node, 'userid', $node->getProperty('userid'));
     }
 
     static function deleteNodeByValue($word) {
