@@ -6,7 +6,7 @@ use Everyman\Neo4j\Relationship;
 class NodesController extends BaseController {
 
     public function getIndex() {
-	return View::make('nodes/index');
+        return View::make('nodes/index');
     }
 
     public function postSearch() {
@@ -28,10 +28,10 @@ class NodesController extends BaseController {
     }
 
     public function getAdd() {
-        if ( !Sentry::check() ){
-		return Redirect::to('/account/login');
-	}
-	return View::make('nodes/add');
+        if (!Sentry::check()) {
+            return Redirect::to('/account/login');
+        }
+        return View::make('nodes/add');
     }
 
     /**
@@ -40,7 +40,7 @@ class NodesController extends BaseController {
      * @return Everyman\Neo4j\Node
      */
     public function getAddnode($relatedId = NULL) {
-	if ( !Sentry::check() ){
+        if (!Sentry::check()) {
             return Redirect::to('/account/login');
         }
         $client = new Everyman\Neo4j\Client(Config::get('database.connections.neo4j.default')['host']);
@@ -56,7 +56,7 @@ class NodesController extends BaseController {
     }
 
     public function postAdd() {
-	if ( !Sentry::check() ){
+        if (!Sentry::check()) {
             return Redirect::to('/account/login');
         }
         $word1 = strtolower(urlencode(Input::get('word1')));
@@ -73,10 +73,10 @@ class NodesController extends BaseController {
     }
 
     public function postAddSynonym() {
-        if ( !Sentry::check() ){
+        if (!Sentry::check()) {
             return Redirect::to('/account/login');
         }
-	$word1 = strtolower(urlencode(Input::get('word1')));
+        $word1 = strtolower(urlencode(Input::get('word1')));
         $word2 = strtolower(urlencode(Input::get('word2')));
         $language = strtolower(urlencode(Input::get('lang')));
 
@@ -91,6 +91,11 @@ class NodesController extends BaseController {
     public function getGraphEditor($id = NULL) {
         $client = new Everyman\Neo4j\Client(Config::get('database.connections.neo4j.default')['host']);
         $node = $client->getNode($id);
+        $user = Sentry::getUser();
+        $admin = $user && $user->hasAccess('admin');
+        if (!$admin && $node->getProperty('approved') < 1) {
+            App::abort(404, 'Not Found');
+        }
         $index = Node::getIndex($client);
         $traversal = new Everyman\Neo4j\Traversal($client);
         $traversal->addRelationship('RELATED', Relationship::DirectionOut)
