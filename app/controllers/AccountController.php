@@ -50,10 +50,10 @@ class AccountController extends AuthorizedController {
                 $user->password = Hash::make(Input::get('password'));
             }
             $user->save();
-            return Redirect::to('account')->with('success', 'Account updated with success!');
+            return Redirect::to('account/secure')->with('success', 'Account updated with success!');
         }
 
-        return Redirect::to('account')->withInput($inputs)->withErrors($validator->getMessageBag());
+        return Redirect::to('account/secure')->withInput($inputs)->withErrors($validator->getMessageBag());
     }
 
     /**
@@ -62,9 +62,8 @@ class AccountController extends AuthorizedController {
      */
     public function getLogin() {
         if (Sentry::check()) {
-            return Redirect::to('account');
+            return Redirect::to('account/secure');
         }
-
         return View::make('account/login');
     }
 
@@ -108,7 +107,7 @@ class AccountController extends AuthorizedController {
      */
     public function getRegister() {
         if (Sentry::check()) {
-            return Redirect::to('account');
+            return Redirect::to('account/secure');
         }
         return View::make('account/register');
     }

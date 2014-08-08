@@ -42,7 +42,7 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Words <b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="/nodes/add">Add</a></li>
+                                <li><a href="/nodes/secure/add">Add</a></li>
                                 <li><a href="/nodes/search">Search</a></li>
                             </ul>
 
@@ -52,13 +52,13 @@
 
                     <ul class="nav navbar-nav navbar-right ">
                         @if (Sentry::check()) 
-                        <li {{{ (Request::is('account') ? 'class="active"' : '') }}}>
-                            <a href="{{{ URL::to('account') }}}">Logged in as {{{ Sentry::getUser()->email }}}</a>
+                        <li {{{ (Request::is('account/secure') ? 'class=active' : '') }}}>
+                            <a href="{{{ URL::to('account/secure') }}}">Logged in as {{{ Sentry::getUser()->email }}}</a>
                         </li>
                         <li><a href="{{{ URL::to('account/logout') }}}">Logout</a></li>
                         @else
 
-                        <li {{{ (Request::is('account/login') ? 'class="active"' : '') }}}>
+                        <li {{{ (Request::is('account/login') ? 'class=active' : '') }}}>
                             <a href="{{{ URL::to('account/login') }}}">Login</a>
                         </li>
                         <!-- 

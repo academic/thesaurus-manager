@@ -21,7 +21,7 @@
 <div class="col-md-12">
     @if(isset($results))
     @foreach ($results as $item)
-    <p><a href="/nodes/graph-editor/{{$item['id']}}">{{{ urldecode($item['properties']['word']) }}}</a></p>
+    <p><a href="/nodes/graph/{{$item['id']}}">{{{ urldecode($item['properties']['word']) }}}</a></p>
     @endforeach
     @endif
 </div>

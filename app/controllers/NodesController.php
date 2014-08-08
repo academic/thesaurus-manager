@@ -14,7 +14,7 @@ class NodesController extends BaseController {
         $client = new Everyman\Neo4j\Client(Config::get('database.connections.neo4j.default')['host']);
         $thesarusIndex = new Everyman\Neo4j\Index\NodeIndex($client, 'thesaurus');
 
-        $matches = $thesarusIndex->query('word:*' . urlencode($word) . '*');
+        $matches = $thesarusIndex->query('approve:"1" && word:*' . urlencode($word) . '*');
         $results = array();
         foreach ($matches as $m) {
             $results[] = array('properties' => $m->getProperties(), 'id' => $m->getId());
@@ -69,7 +69,7 @@ class NodesController extends BaseController {
 
         Node::addRelation($node1, $node2, $level);
         Node::addRelation($node2, $node1, $level);
-        return Redirect::to('nodes/graph-editor/' . $node1->getId());
+        return Redirect::to('nodes/graph/' . $node1->getId());
     }
 
     public function postAddSynonym() {
@@ -85,10 +85,10 @@ class NodesController extends BaseController {
 
         Node::addRelation($node1, $node2, NULL, 'SYNONYM');
         Node::addRelation($node2, $node1, NULL, 'SYNONYM');
-        return Redirect::to('nodes/graph-editor/' . $node1->getId());
+        return Redirect::to('nodes/graph/' . $node1->getId());
     }
 
-    public function getGraphEditor($id = NULL) {
+    public function getGraph($id) {
         $client = new Everyman\Neo4j\Client(Config::get('database.connections.neo4j.default')['host']);
         $node = $client->getNode($id);
         $user = Sentry::getUser();

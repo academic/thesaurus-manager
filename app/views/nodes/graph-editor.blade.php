@@ -13,12 +13,12 @@
 
         @if($admin)
             @if( $node->getProperty("approve") < 1 )
-            <a href="/moderation/approve/{{$node->getId()}}" class="btn btn-sm btn-success">
+            <a href="/admin/moderation/approve/{{$node->getId()}}" class="btn btn-sm btn-success">
                 <i class="glyphicon glyphicon-ok"></i> Approve</a> 
             @endif
 
             @if( $node->getProperty('approve') != -1 )
-            <a href="/moderation/decline/{{$node->getId()}}" class="btn btn-sm btn-danger">
+            <a href="/admin/moderation/decline/{{$node->getId()}}" class="btn btn-sm btn-danger">
                 <i class="glyphicon glyphicon-ban-circle"></i> Decline</a>
             @endif
         @endif
