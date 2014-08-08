@@ -7,7 +7,7 @@
             </div> 
 
             <div class="modal-body">
-                <form method="POST" action="/nodes/add" class="form col-md-12 center-block">
+                <form method="POST" action="/nodes/secure/add" class="form col-md-12 center-block">
                     {{ Form::token() }}
                     <input type="hidden" name="word1" value="{{{$node->getProperty("word")}}}" />
                     <input type="hidden" name="lang" value="{{{$node->getProperty("lang")}}}" />
