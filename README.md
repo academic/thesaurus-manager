@@ -1,6 +1,7 @@
 **Warning** This project is still under developement.
 
-[![Build Status](https://drone.io/github.com/okulbilisim/thesaurus-manager/status.png?latest)](https://drone.io/github.com/okulbilisim/thesaurus-manager/latest)
+[![Build Status](https://drone.io/github.com/okulbilisim/thesaurus-manager/status.png?latest)](https://drone.io/github.com/okulbilisim/thesaurus-manager/latest)  [![DOI](https://zenodo.org/badge/5719/okulbilisim/thesaurus-manager.png)](http://dx.doi.org/10.5281/zenodo.11398)
+
 
 
 Open Thesaurus Manager
