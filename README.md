@@ -16,7 +16,7 @@ Requirements
 - Mysql
 - Neo4j
 
-You may not a web server for development. Laravel's artisan tool will be enough for creating a built-in web server like : `php artisan serve --port 8081`
+You may not need a web server for development. Laravel's artisan tool will be enough for creating a built-in web server like : `php artisan serve --port 8081`
 
 
 Install
