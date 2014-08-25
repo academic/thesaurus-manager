@@ -9,18 +9,28 @@
 
 <div class="page-header">
     <p>
-        <a href="#"><h2>{{{ $node->getProperty("word")}}} <small>lang:{{{ $node->getProperty("lang")}}}</small></h2></a> 
+        <a href="#">
+            <h2>{{{ $node->getProperty("word")}}} 
+                <small>lang:{{{ $node->getProperty("lang")}}}</small>
+                @if($admin || $editor)
+                <small class="label label-{{$approveLabel}}" style="font-size:12px">
+                    Approval State: {{$node->getProperty('approve')}}
+                </small>
+                @endif
+
+            </h2></a> 
+
 
         @if($admin)
-            @if( $node->getProperty("approve") < 1 )
-            <a href="/admin/moderation/approve/{{$node->getId()}}" class="btn btn-sm btn-success">
-                <i class="glyphicon glyphicon-ok"></i> Approve</a> 
-            @endif
+        @if( $node->getProperty("approve") < 1 )
+        <a href="/admin/moderation/approve/{{$node->getId()}}" class="btn btn-sm btn-success">
+            <i class="glyphicon glyphicon-ok"></i> Approve</a> 
+        @endif
 
-            @if( $node->getProperty('approve') != -1 )
-            <a href="/admin/moderation/decline/{{$node->getId()}}" class="btn btn-sm btn-danger">
-                <i class="glyphicon glyphicon-ban-circle"></i> Decline</a>
-            @endif
+        @if( $node->getProperty('approve') != -1 )
+        <a href="/admin/moderation/decline/{{$node->getId()}}" class="btn btn-sm btn-danger">
+            <i class="glyphicon glyphicon-ban-circle"></i> Decline</a>
+        @endif
         @endif
 
     <div>

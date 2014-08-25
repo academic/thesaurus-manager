@@ -59,6 +59,10 @@ class NodesController extends BaseController {
         if (!Sentry::check()) {
             return Redirect::to('/account/login');
         }
+        $user = Sentry::getUser();
+        if (!$user || ( $user && !$user->hasAccess('canAdd') )) {
+            App::abort(401, 'Not authenticated');
+        }
         $word1 = strtolower(urlencode(Input::get('word1')));
         $word2 = strtolower(urlencode(Input::get('word2')));
         $language = strtolower(urlencode(Input::get('lang')));
@@ -92,11 +96,10 @@ class NodesController extends BaseController {
         $client = new Everyman\Neo4j\Client(Config::get('database.connections.neo4j.default')['host']);
         $node = $client->getNode($id);
         $user = Sentry::getUser();
-        $admin = $user && $user->hasAccess('admin');
-        if (!$admin && $node->getProperty('approve') < 1) {
+        $canView = $user && ($user->hasAccess('admin') || $user->hasAccess('editor'));
+        if (!$canView && $node->getProperty('approve') < 1) {
             App::abort(404, 'Not Found');
         }
-        $index = Node::getIndex($client);
         $traversal = new Everyman\Neo4j\Traversal($client);
         $traversal->addRelationship('RELATED', Relationship::DirectionOut)
                 ->setPruneEvaluator(Traversal::PruneNone)
@@ -110,8 +113,6 @@ class NodesController extends BaseController {
                 ->setReturnFilter(Traversal::ReturnAll)
                 ->setMaxDepth(2);
         $nodesSynonym = $traversal2->getResults($node, Traversal::ReturnTypeNode);
-
-        $nodeIds = array();
         foreach ($nodes as $tmp) {
             $nodeWords[] = urldecode($tmp->getProperty("word"));
         }
@@ -138,7 +139,9 @@ class NodesController extends BaseController {
                     'nodesSynonym' => $nodesSynonym,
                     'relations' => $relations,
                     'node' => $node,
-                    'admin' => $admin));
+                    'approveLabel' => ($node->getProperty('approve') < 1 ? 'danger' : 'success'),
+                    'editor' => $user->hasAccess('editor'),
+                    'admin' => $user->hasAccess('admin')));
     }
 
 }

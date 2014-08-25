@@ -71,26 +71,18 @@ class Node {
      */
     static function addNode($word, $lang = 'en', $forceAdd = FALSE) {
         $user = Sentry::getUser();
-        //$admin = $user && $user->hasAccess('admin');
-
-        /**
-         * cli client may add without user information with forceAdd parameter
-         */
-        if (!$user || ( $user && !$user->hasAccess('canAdd') )) {
-            if ($forceAdd === FALSE) {
-                App::abort(401, 'Not authenticated');
-            }
-        }
         $word = strtolower($word);
         $client = new Everyman\Neo4j\Client(Config::get('database.connections.neo4j.default')['host']);
         $thesaurusIndex = Node::getIndex($client);
         $thesaurus = $thesaurusIndex->queryOne('word:"' . $word . '" AND lang:"' . $lang . '"');
+        $approvalState = $forceAdd ? 1 : 0;
+        $userId = $user ? $user->getId() : 0;
         if (empty($thesaurus)) {
             $thesaurus = Neo4j::makeNode();
             $thesaurus->setProperty('word', $word)
                     ->setProperty('lang', $lang)
-                    ->setProperty('approve', $forceAdd ? 0 : 1)
-                    ->setProperty('userid', ($user ? $user->getId() : 0))
+                    ->setProperty('approve', $approvalState)
+                    ->setProperty('userid', $userId)
                     ->save();
             Node::addNodeIndex($thesaurusIndex, $thesaurus);
             // Link to root node 
