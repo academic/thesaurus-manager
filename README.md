@@ -9,6 +9,15 @@ Open Thesaurus Manager
 If you want to create your own thesaurus this project will be a super fast solution for you.
 
 
+Requirements
+------------
+
+- Php 5.4
+- Mysql
+- Neo4j
+
+You may not a web server for development. Laravel's artisan tool will be enough for creating a built-in web server like : `php artisan serve --port 8081`
+
 
 Install
 -------
@@ -36,7 +45,7 @@ Cli tools
 
 **Get Suggestions From google.com**
 
-    php artisan suggestions:google <word>
+    php artisan suggestions:google <word>
 
 
 
