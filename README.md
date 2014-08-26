@@ -23,13 +23,45 @@ You may not need a web server for development. Laravel's artisan tool will be en
 Install
 -------
 
+**Clone project to your machine.**
+```
+$ git clone git@github.com:okulbilisim/thesaurus-manager.git
+```
+
+**Create a database named 'thesaurus'**
+```
+$ mysql -uroot -proot -e "create database thesaurus charset utf8"
+```
+
+**Install composer packages**
 ```sh
-composer install
-# edit app/config/database.php
-php artisan migrate --package=cartalyst/sentry
+$ composer install
+```
+
+**Update your settings**
+```
+$ vim app/config/database.php
+```
+
+**Run db migration commands**
+```
+$ php artisan migrate --package=cartalyst/sentry
+```
+
+**Add sample data**
+```
 php artisan db:seed
 php artisan sampledata
 ```
+
+**Sample users**
+- Admin
+    - email: admin@localhost.com  
+    - password: admin
+- Editor
+    - email: editor@localhost.com
+    - password: editor
+
 
 Cli tools
 ---------
@@ -49,10 +81,4 @@ Cli tools
     php artisan suggestions:google <word>
 
 
-
 ![preview](https://raw.githubusercontent.com/hasantayyar/thesaurus-manager/master/docs/alpha_preview3.png)
-Demo User
----------
-
-    email: user@localhost.com
-    password: user
