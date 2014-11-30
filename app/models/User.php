@@ -5,6 +5,8 @@ use Illuminate\Auth\Reminders\RemindableInterface;
 
 class User extends Eloquent implements UserInterface, RemindableInterface {
 
+    use ValidationTrait;
+
     /**
      * @var string
      */
@@ -13,7 +15,51 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     /**
      * @var array
      */
-    protected $hidden = array('password');
+    protected $hidden = [
+        'password'
+    ];
+
+    /**
+     * Fields to protect from mass assign
+     *
+     * @var array
+     */
+    protected $guarded = [
+        'id',
+    ];
+
+    /**
+     * Fields to mass assign
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'first_name',
+        'last_name',
+        'email',
+        'password'
+    ];
+
+    /**
+     * Validation rules
+     *
+     * @var array
+     */
+    protected $rules = [
+        'first_name'            => 'Required',
+        'last_name'             => 'Required',
+        'email'                 => 'Required|Email|Unique:users',
+        'password'              => 'Required|Confirmed',
+        'password_confirmation' => 'Required'
+    ];
+
+    /**
+     * Validation messagess
+     *
+     * @var array
+     */
+    protected $messages = [
+    ];
 
     /**
      * @return mixed
