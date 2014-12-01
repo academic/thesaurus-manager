@@ -2,7 +2,7 @@
     "require": {
         "laravel/framework": "4.1.*",
         "cartalyst/sentry": "2.1.*",
-	"artdarek/neo4j-4-laravel": "dev-master",
+        "artdarek/neo4j-4-laravel": "dev-master",
         "hasantayyar/synonyms": "dev-master"
     },
     "autoload": {

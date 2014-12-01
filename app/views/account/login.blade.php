@@ -26,7 +26,7 @@
     </div>
     <div class="form-group">
         <button class="btn btn-primary btn-lg btn-block">Sign In</button>
-        <span class="pull-right"><a href="#">Register</a></span>
+        <span class="pull-right"><a href="{{ URL::action('AccountController@getRegister')}}">Register</a></span>
 
     </div>
 </form> 

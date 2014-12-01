@@ -6,12 +6,12 @@ class AccountController extends AuthorizedController {
      * @access   protected
      * @var      array
      */
-    protected $whitelist = array(
+    protected $whitelist = [
         'getLogin',
         'postLogin',
         'getRegister',
         'postRegister'
-    );
+    ];
 
     /**
      * @access   public
@@ -117,26 +117,16 @@ class AccountController extends AuthorizedController {
      * @return   Redirect
      */
     public function postRegister() {
-        $rules = array(
-            'first_name' => 'Required',
-            'last_name' => 'Required',
-            'email' => 'Required|Email|Unique:users',
-            'password' => 'Required|Confirmed',
-            'password_confirmation' => 'Required'
-        );
-        $inputs = Input::all();
-        $validator = Validator::make($inputs, $rules);
-        if ($validator->passes()) {
-            $user = new User;
-            $user->first_name = Input::get('first_name');
-            $user->last_name = Input::get('last_name');
-            $user->email = Input::get('email');
-            $user->password = Hash::make(Input::get('password'));
+        $input = Input::only('first_name', 'last_name', 'email', 'password', 'password_confirmation');
+
+        $user = new User($input);
+
+        if ($user->validate($input) === true) {
             $user->save();
             return Redirect::to('account/register')->with('success', 'Account created with success!');
         }
 
-        return Redirect::to('account/register')->withInput($inputs)->withErrors($validator->getMessageBag());
+        return Redirect::to('account/register')->withInput($input)->withErrors($user->errors());
     }
 
     /**
