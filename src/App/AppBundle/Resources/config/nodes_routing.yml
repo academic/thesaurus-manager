@@ -1,0 +1,39 @@
+nodes:
+    path:     /
+    defaults: { _controller: AppAppBundle:Nodes:index }
+    methods: [GET]
+
+nodes_search:
+    path:     /search
+    defaults: { _controller: AppAppBundle:Nodes:getSearch }
+    methods: [GET]
+
+nodes_search:
+    path:     /search
+    defaults: { _controller: AppAppBundle:Nodes:postSearch }
+    methods: [POST]
+
+nodes_add:
+    path:     /secure/add
+    defaults: { _controller: AppAppBundle:Nodes:getAdd }
+    methods: [GET]
+
+nodes_add:
+    path:     /secure/add
+    defaults: { _controller: AppAppBundle:Nodes:postAdd }
+    methods: [POST]
+
+nodes_add_related:
+    path:     /secure/add/{relatedId}
+    defaults: { _controller: AppAppBundle:Nodes:getAddNode }
+    methods: [GET]
+
+nodes_add_synonym:
+    path:     /secure/add-synonym
+    defaults: { _controller: AppAppBundle:Nodes:postAddSynonym }
+    methods: [POST]
+
+nodes_graph:
+    path:     /graph/{id}
+    defaults: { _controller: AppAppBundle:Nodes:getGraph }
+    methods: [GET]

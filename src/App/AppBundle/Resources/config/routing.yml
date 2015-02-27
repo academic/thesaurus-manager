@@ -1,3 +1,7 @@
-analytics_homepage:
+home_main:
     path:     /
-    defaults: { _controller: AppAppBundle:Default:index }
+    defaults: { _controller: AppAppBundle:Home:showIndex }
+
+nodes:
+    resource: "@AppAppBundle/Resources/config/nodes_routing.yml"
+    prefix:    /nodes
