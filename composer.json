@@ -19,7 +19,8 @@
         "sensio/framework-extra-bundle": "~3.0",
         "incenteev/composer-parameter-handler": "~2.0",
 	"everyman/neo4jphp": "dev-master",
-	"hirevoice/neo4jphp-ogm": "dev-master"
+	"hirevoice/neo4jphp-ogm": "dev-master",
+        "friendsofsymfony/user-bundle": "~2.0@dev"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"
