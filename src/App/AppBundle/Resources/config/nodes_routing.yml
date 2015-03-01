@@ -1,24 +1,21 @@
 nodes:
     path:     /
     defaults: { _controller: AppAppBundle:Nodes:index }
-    methods: [GET]
 
 nodes_search:
     path:     /search
     defaults: { _controller: AppAppBundle:Nodes:getSearch }
-    methods: [GET]
 
-nodes_search:
-    path:     /search
+nodes_search_action:
+    path:     /search_action
     defaults: { _controller: AppAppBundle:Nodes:postSearch }
-    methods: [POST]
 
 nodes_add:
     path:     /secure/add
     defaults: { _controller: AppAppBundle:Nodes:getAdd }
     methods: [GET]
 
-nodes_add:
+nodes_add_action:
     path:     /secure/add
     defaults: { _controller: AppAppBundle:Nodes:postAdd }
     methods: [POST]
