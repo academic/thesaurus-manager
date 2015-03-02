@@ -5,3 +5,8 @@ home_main:
 nodes:
     resource: "@AppAppBundle/Resources/config/nodes_routing.yml"
     prefix:    /nodes
+
+admin_moderation:
+    resource: "@AppAppBundle/Resources/config/admin_routing.yml"
+    prefix:    /admin/moderation
+

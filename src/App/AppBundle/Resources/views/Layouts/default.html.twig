@@ -57,7 +57,7 @@
             <ul class="nav navbar-nav navbar-right ">
                 {% if is_granted('ROLE_USER') %}
                     <li {{ app.request.attributes.get('_route') == 'account_secure' ? 'class=active' : '' }}>
-                        <a href="{{ path('account_secure') }}">Logged in as {{ app.user.mail }}</a>
+                        <a href="">Logged in as {{ app.user.email }}</a>
                     </li>
                     <li>
                         <a href="{{ path('fos_user_security_logout') }}">Logout</a>
@@ -82,6 +82,8 @@
 
     {% block content %}
     {% endblock %}
+    {% block fos_user_content %}
+    {% endblock fos_user_content %}
 </div>
 {% block js %}
     <script src="{{ asset('assets/js/jquery.min.js') }}"></script>

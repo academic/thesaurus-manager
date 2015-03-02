@@ -1,0 +1,25 @@
+{% extends 'AppAppBundle:Layouts:default.html.twig' %}
+
+{% block content %}
+<h1>New added entries</h1>
+
+<div class="col-md-12">
+    {% if results is defined %}
+    {% for item in results %}
+    <ul class="list-group">
+        <li class="list-group-item">
+            <a href="/nodes/graph/{{ item.id }}">
+                <strong class="pull-left">{{ item.properties.word | raw }}</strong>
+            </a>
+            <span class="pull-right">
+                <a href="/admin/moderation/approve/{{ item.id }}" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-ok"></i></a>
+                <a href="/admin/moderation/decline/{{ item.id }}" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-ban-circle"></i></a>
+            </span>
+            <div class="row"></div>
+        </li>
+    </ul>
+    {% endfor %}
+    {% endif %}
+</div>
+
+{% endblock %}
