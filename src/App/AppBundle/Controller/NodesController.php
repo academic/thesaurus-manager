@@ -9,16 +9,13 @@ use Everyman\Neo4j\Client;
 use Everyman\Neo4j\Index\NodeIndex;
 use Symfony\Component\HttpFoundation\Request;
 use App\AppBundle\Entity\Node;
+use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 
 class NodesController extends Controller
 {
-    protected $client;
-
-    public function __construct(){
-
-        $this->client = new Client('127.0.0.1');
-    }
-
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function indexAction()
     {
         return $this->render(
@@ -26,6 +23,9 @@ class NodesController extends Controller
         );
     }
 
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function getSearchAction()
     {
         return $this->render(
@@ -33,24 +33,34 @@ class NodesController extends Controller
         );
     }
 
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function postSearchAction(Request $request)
     {
+        /*throw exception if token is not validate*/
+        if (!$this->isCsrfTokenValid('search_term', $request->get('_csrf_token'))) {
+            throw new AccessDeniedException("Access denied!", 403);
+        }
+        $client = new Client($this->container->getParameter('neo4j.host'));
         $word = strtolower($request->get('word'));
-        $thesarusIndex = new NodeIndex($this->client, 'thesaurus');
-
+        $thesarusIndex = new NodeIndex($client, 'thesaurus');
         $matches = $thesarusIndex->query('approve:"1" && word:*' . urlencode($word) . '*');
         $results = array();
         foreach ($matches as $m) {
             $results[] = array('properties' => $m->getProperties(), 'id' => $m->getId());
         }
-
         return $this->render(
-            'AppAppBundle:Nodes:search.html.twig',array(
+            'AppAppBundle:Nodes:search.html.twig', array(
                 'results' => $results
             )
         );
     }
 
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function getAddAction()
     {
         return $this->render(
@@ -58,42 +68,42 @@ class NodesController extends Controller
         );
     }
 
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
     public function postAddAction(Request $request)
     {
-        $nodeEntity = new Node();
-
+        /*throw exception if token is not validate*/
+        if (!$this->isCsrfTokenValid('node_add', $request->get('_csrf_token'))) {
+            throw new AccessDeniedException("Access denied!", 403);
+        }
+        $nodeEntity = new Node($this->container->getParameter('neo4j.host'));
         $word1 = strtolower(urlencode($request->get('word1')));
         $word2 = strtolower(urlencode($request->get('word2')));
         $language = strtolower(urlencode($request->get('lang')));
-        $level = (int) $request->get('level');
+        $level = (int)$request->get('level');
 
-        $node1 = $nodeEntity->addNode($word1,$language);
-        $node2 = $nodeEntity->addNode($word2,$language);
+        $node1 = $nodeEntity->addNode($word1, $language);
+        $node2 = $nodeEntity->addNode($word2, $language);
 
-        $nodeEntity->addRelation($node1,$node2,$level);
-        $nodeEntity->addRelation($node2,$node1,$level);
+        $nodeEntity->addRelation($node1, $node2, $level);
+        $nodeEntity->addRelation($node2, $node1, $level);
 
-        return $this->redirect('/nodes/graph/'.$node1->getId());
+        return $this->redirect($this->generateUrl("nodes_graph", array('id' => $node1->getId())));
     }
 
-    public function getAddNodeAction(Request $request,$relatedId)
-    {
-        $nodeEntity = new Node();
-
-        $word = strtolower($request->get('word1'));
-        $node = $nodeEntity->addNode($word);
-        if ($relatedId) {
-            $nodeRelated = $this->client->getNode($relatedId);
-            $level = (int) $request->get('level');
-            $nodeEntity->addRelation($nodeRelated, $node, $level);
-            $nodeEntity->addRelation($node, $nodeRelated, $level);
-        }
-        return json_encode(array("id" => $node->getId()));
-    }
-
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
     public function postAddSynonymAction(Request $request)
     {
-        $nodeEntity = new Node();
+        /*throw exception if token is not validate*/
+        if (!$this->isCsrfTokenValid('add_synonym_node', $request->get('_csrf_token'))) {
+            throw new AccessDeniedException("Access denied!", 403);
+        }
+        $nodeEntity = new Node($this->container->getParameter('neo4j.host'));
         $word1 = strtolower(urlencode($request->get('word1')));
         $word2 = strtolower(urlencode($request->get('word2')));
         $language = strtolower(urlencode($request->get('lang')));
@@ -104,12 +114,19 @@ class NodesController extends Controller
         $nodeEntity->addRelation($node1, $node2, NULL, 'SYNONYM');
         $nodeEntity->addRelation($node2, $node1, NULL, 'SYNONYM');
 
-        return $this->redirect('/nodes/graph/' . $node1->getId());
+        return $this->redirect($this->generateUrl("nodes_graph", array('id' => $node1->getId())));
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Everyman\Neo4j\Exception
+     * @throws \Exception
+     */
     public function getGraphAction(Request $request, $id)
     {
-        $client = $this->client;
+        $client = new Client($this->container->getParameter('neo4j.host'));
         $node = $client->getNode($id);
 
         $traversal = new Traversal($client);
@@ -120,7 +137,6 @@ class NodesController extends Controller
         $nodes = $traversal->getResults($node, Traversal::ReturnTypeNode);
 
         $traversal2 = new Traversal($client);
-
         $traversal2->addRelationship('SYNONYM', Relationship::DirectionOut)
             ->setPruneEvaluator(Traversal::PruneNone)
             ->setReturnFilter(Traversal::ReturnAll)

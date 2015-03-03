@@ -6,11 +6,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class HomeController extends Controller
 {
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function showIndexAction()
     {
-        if($this->container->get('security.context')->isGranted('ROLE_USER')){
+        if ($this->container->get('security.context')->isGranted('ROLE_USER')) {
             return $this->render('AppAppBundle:Home:dashboard.html.twig');
-        }else{
+        } else {
             return $this->render('AppAppBundle:Home:anonym.html.twig');
         }
     }

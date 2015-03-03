@@ -1,9 +1,9 @@
 {% extends 'AppAppBundle:Layouts:default.html.twig' %}
 
 {% block content %}
-<form method="post" action="" class="form col-md-12 center-block">
-
+<form method="post" action="{{ path('nodes_search_action') }}" class="form col-md-12 center-block">
     <div class="form-group">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token("search_term") }}" />
         <input type="text" placeholder="Search for a word " name="word" id="thesaurus"
                class="form-control input-lg" />
     </div>
