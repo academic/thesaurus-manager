@@ -1,0 +1,97 @@
+{% extends 'AppAppBundle:Layouts:default.html.twig' %}
+
+{% block css %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/grapheditor.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <p>
+            <a href="#">
+                <h2>{{ node.getProperty("word") | url_decode }}
+                    <small>lang:{{ node.getProperty("lang") }}</small>
+                    <small class="label label-{{ approveLabel }}" style="font-size:12px">
+                        Approval State: {{ node.getProperty('approve') }}
+                    </small>
+                </h2>
+            </a>
+
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                {% if node.getProperty("approve") < 1 %}
+                    <a href="{{ path('moderation_approve', {id:node.getId()}) }}" class="btn btn-sm btn-success">
+                        <i class="glyphicon glyphicon-ok"></i> Approve</a>
+                {% endif %}
+
+                {% if node.getProperty("approve") != -1 %}
+                    <a href="{{ path('moderation_decline', {id:node.getId()}) }}" class="btn btn-sm btn-danger">
+                        <i class="glyphicon glyphicon-ban-circle"></i> Decline</a>
+                {% endif %}
+            {% endif %}
+
+        <div>
+            {% if nodesSynonym is defined %}
+                Synonyms :
+                {% for synonym in nodesSynonym %}
+                    {% if synonym.getProperty('word') != node.getProperty('word') %}
+                        <span class="badge">
+                            {{ synonym.getProperty("word") | url_decode }}
+                        </span>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+        </p>
+
+        <p>
+            <small>Check results on:</small>
+            <a class="label label-default" target="_blank"
+               href="https://www.wordnik.com/words/{{ node.getProperty("word") }}">wornik</a>
+            <a class="label label-default" target="_blank"
+               href="http://thesaurus.com/browse/{{ node.getProperty("word") }}">thesaurus</a>
+            <a class="label label-default" target="_blank"
+               href="https://duckduckgo.com/?q={{ node.getProperty("word") }}">duckduckgo</a>
+            <a class="label label-default" target="_blank"
+               href="https://www.google.com/search?q={{ node.getProperty("word") }}">google</a>
+            <a class="label label-default" target="_blank"
+               href="http://words.bighugelabs.com/{{ node.getProperty("word") }}">words.bighugelabs</a>
+        </p>
+    </div>
+
+    <div class="col-md-12">
+        {% if (is_granted('ROLE_EDITOR')) or (is_granted('ROLE_SUPER_ADMIN')) %}
+            <a class="btn btn-success" data-toggle="modal" data-target="#addNodeModal">
+                <i class="glyphicon glyphicon-plus-sign"></i> Add Related Word
+            </a>
+            <a class="btn btn-info" data-toggle="modal" data-target="#addSynonymModal">
+                <i class="glyphicon glyphicon-plus"></i> Add Synonym
+            </a>
+        {% endif %}
+
+        <!-- graph editor not implemented yet. so this button is useless as windows 95 -->
+        <a onclick="return confirm('Are you sure?') ? location.reload() : ''" class="btn btn-warning">Reset Work</a>
+    </div>
+    <div class="row">
+        <input class="form-control hidden" id="selected"/>
+    </div>
+    <div id="graph"></div>
+
+    <!-- Modals -->
+    {% include 'AppAppBundle:Nodes:add-node-modal.html.twig' %}
+    {% include 'AppAppBundle:Nodes:add-synonym-modal.html.twig' %}
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+    <script>
+        var links = [
+            {% if relations %}
+            {% for relation in relations %}
+            {source: "{{ relation.source }}", target: "{{ relation.target }}", type: "related"},
+            {% endfor %}
+            {% endif %}
+        ];
+    </script>
+    <script src="{{ asset('assets/js/d3.v3.min.js') }}"></script>
+    <script src="{{ asset('assets/js/grapheditor.js') }}"></script>
+{% endblock %}
