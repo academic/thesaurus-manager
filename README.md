@@ -21,7 +21,7 @@ Install
 
 **Clone project to your machine.**
 ```
-$ git clone git@github.com:okulbilisim/thesaurus-manager.git --branch sf
+$ git clone git@github.com:okulbilisim/thesaurus-manager.git
 ```
 
 **Create a database named 'thesaurus'**
