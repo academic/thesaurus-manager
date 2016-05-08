@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e1fe2d9db23a34dedccc45ae9347bf22",
-    "content-hash": "5cdda7034317e4724e529acc1aacabad",
+    "hash": "a27e52232b4d716c1a573be4180481b4",
+    "content-hash": "bb18b103f726fb90a16ff75ae1014f49",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -951,6 +951,59 @@
                 "psr-3"
             ],
             "time": "2016-04-12 18:29:35"
+        },
+        {
+            "name": "ostico/phporient",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Ostico/PhpOrient.git",
+                "reference": "71992267d442339b166d6715d2ac8fac3fb195fd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Ostico/PhpOrient/zipball/71992267d442339b166d6715d2ac8fac3fb195fd",
+                "reference": "71992267d442339b166d6715d2ac8fac3fb195fd",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0",
+                "psr/log": "~1.0"
+            },
+            "require-dev": {
+                "monolog/monolog": "1.11.*",
+                "ostico/phpdoc-md": "dev-master",
+                "phpdocumentor/phpdocumentor": "dev-master",
+                "phpdocumentor/template-zend": "1.3.0",
+                "phpunit/phpunit": "4.4",
+                "satooshi/php-coveralls": "~1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PhpOrient\\": "src/PhpOrient"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache License v2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Domenico Lupinetti",
+                    "email": "ostico@gmail.com",
+                    "homepage": "https://www.linkedin.com/in/domenicolupinetti",
+                    "role": "Owner, Developer"
+                }
+            ],
+            "description": "PHPOrient is a good php driver based on the binary protocol of OrientDB.",
+            "homepage": "https://github.com/Ostico/PhpOrient",
+            "keywords": [
+                "orient db",
+                "orientdb",
+                "orientechnologies"
+            ],
+            "time": "2016-04-19 15:46:03"
         },
         {
             "name": "paragonie/random_compat",
@@ -1953,14 +2006,13 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "ostico/phporient": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "php": ">=5.5.9"
     },
-    "platform-dev": [],
-    "platform-overrides": {
-        "php": "5.5.9"
-    }
+    "platform-dev": []
 }
