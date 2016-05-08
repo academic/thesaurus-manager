@@ -2,4 +2,3 @@ academic_thesaurus:
     resource: "@AcademicThesaurusBundle/Controller/"
     type:     annotation
     prefix:   /
-
