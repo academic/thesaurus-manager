@@ -27,11 +27,35 @@
         "sensio/distribution-bundle": "^5.0",
         "sensio/framework-extra-bundle": "^3.0.2",
         "incenteev/composer-parameter-handler": "^2.0",
-        "ostico/phporient":"dev-master"
+        "ostico/phporient":"dev-master",
+        "mopa/bootstrap-bundle": "^3.0",
+        "twbs/bootstrap": "^3.3",
+        "stof/doctrine-extensions-bundle": "^1.2",
+        "jms/serializer-bundle": "^1.1",
+        "knplabs/knp-menu-bundle": "^2.1",
+        "vich/uploader-bundle": "~1.0",
+        "ircmaxell/password-compat": "^1.0",
+        "liip/imagine-bundle": "^1.5",
+        "jms/di-extra-bundle": "~1.7",
+        "willdurand/hateoas-bundle": "^1.1",
+        "friendsofsymfony/jsrouting-bundle": "^1.6",
+        "friendsofsymfony/rest-bundle": "~2.0@dev",
+        "knplabs/knp-paginator-bundle": "^2.5",
+        "nelmio/api-doc-bundle": "^2.11",
+        "javiereguiluz/easyadmin-bundle": "~1.12"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
-        "symfony/phpunit-bridge": "^3.0"
+        "symfony/phpunit-bridge": "^3.0",
+        "doctrine/doctrine-fixtures-bundle": "^2.3",
+        "liip/functional-test-bundle": "^1.6",
+        "brianium/paratest": "^0.13",
+        "phpunit/phpunit": "5.3.*"
+    },
+    "config": {
+        "platform": {
+            "php": "7.0"
+        }
     },
     "scripts": {
         "post-install-cmd": [
@@ -40,7 +64,8 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget",
+            "Mopa\\Bundle\\BootstrapBundle\\Composer\\ScriptHandler::postInstallSymlinkTwitterBootstrap"
         ],
         "post-update-cmd": [
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
@@ -48,7 +73,8 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget",
+            "Mopa\\Bundle\\BootstrapBundle\\Composer\\ScriptHandler::postInstallSymlinkTwitterBootstrap"
         ]
     },
     "extra": {
