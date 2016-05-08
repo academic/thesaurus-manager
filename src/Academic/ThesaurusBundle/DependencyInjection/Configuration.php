@@ -1,6 +1,6 @@
 <?php
 
-namespace Academic\Bundle\ThesaurusBundle\DependencyInjection;
+namespace Academic\ThesaurusBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

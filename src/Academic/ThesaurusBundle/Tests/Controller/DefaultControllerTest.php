@@ -1,6 +1,6 @@
 <?php
 
-namespace Academic\Bundle\ThesaurusBundle\Tests\Controller;
+namespace Academic\ThesaurusBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

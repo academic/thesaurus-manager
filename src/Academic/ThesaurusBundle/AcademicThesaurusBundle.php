@@ -1,6 +1,6 @@
 <?php
 
-namespace Academic\Bundle\ThesaurusBundle;
+namespace Academic\ThesaurusBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
