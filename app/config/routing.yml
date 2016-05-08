@@ -1,6 +1,8 @@
-main_app:
-    resource: "@AppAppBundle/Resources/config/routing.yml"
+academic_thesaurus:
+    resource: "@AcademicThesaurusBundle/Controller/"
+    type:     annotation
     prefix:   /
 
-fos_user:
-    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation

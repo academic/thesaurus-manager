@@ -1,28 +1,24 @@
-# app/config/security.yml
+# To get started with security, check out the documentation:
+# http://symfony.com/doc/current/book/security.html
 security:
-    encoders:
-        FOS\UserBundle\Model\UserInterface: sha512
 
-    role_hierarchy:
-        ROLE_SUPER_ADMIN: ROLE_SUPER_ADMIN
-        ROLE_EDITOR: ROLE_EDITOR
-        ROLE_USER: ROLE_USER
-
+    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
-        fos_userbundle:
-            id: fos_user.user_provider.username
+        in_memory:
+            memory: ~
 
     firewalls:
-        main:
-            pattern: ^/
-            form_login:
-                provider: fos_userbundle
-                csrf_provider: form.csrf_provider
-            logout:       true
-            anonymous:    true
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
 
-    access_control:
-        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/nodes/secure, role: [ROLE_EDITOR,ROLE_SUPER_ADMIN] }
-        - { path: ^/admin/, role: ROLE_SUPER_ADMIN }
+        main:
+            anonymous: ~
+            # activate different ways to authenticate
+
+            # http_basic: ~
+            # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
+
+            # form_login: ~
+            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html

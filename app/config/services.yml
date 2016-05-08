@@ -4,12 +4,6 @@ parameters:
 #    parameter_name: value
 
 services:
-    app.twig.extension:
-        class: App\AppBundle\Twig\Extension\AppExtension
-        tags:
-            -  { name: twig.extension }
-    user.registration_complete:
-        class: App\AppBundle\EventListener\RegistrationConfirmListener
-        arguments: [@router]
-        tags:
-            - { name: kernel.event_subscriber }
+#    service_name:
+#        class: AppBundle\Directory\ClassName
+#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]

@@ -1,9 +1,0 @@
-{% extends 'AppAppBundle:Layouts:default.html.twig' %}
-
-{% block content %}
-    <h1>Words</h1>
-    <a href="{{ path('nodes_search') }}" class="btn btn-info">Search</a>
-    {% if (is_granted('ROLE_SUPER_ADMIN')) or (is_granted('ROLE_EDITOR')) %}
-        <a href="{{ path('nodes_add') }}" class="btn btn-warning">Add</a>
-    {% endif %}
-{% endblock %}
